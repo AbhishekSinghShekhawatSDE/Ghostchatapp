@@ -8,7 +8,6 @@ import Inbox from '../components/Inbox';
 import Chat from '../components/Chat';
 import Settings from '../components/Settings';
 import OnboardingModal from '../components/OnboardingModal';
-import Footer from '../components/Footer';
 import '../styles/designTokens.css';
 
 const Dashboard = () => {
@@ -81,21 +80,10 @@ const Dashboard = () => {
           />
         </div>
       </motion.main>
-      <div style={styles.dashboardFooter}>
-        <Footer />
-      </div>
     </div>
   );
 };
 
-const styles = {
-  dashboardFooter: {
-    flexShrink: 0,
-    transform: 'scale(0.85)',
-    transformOrigin: 'bottom center',
-    marginTop: '-20px',
-    marginBottom: '-10px'
-  }
-};
+const styles = {};
 
 export default Dashboard;
