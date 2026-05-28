@@ -109,33 +109,25 @@ const Settings = ({ session }) => {
                   <p style={styles.aboutText}>Sign up with username and password. Get a unique 6-digit code. Share it with friends. Chat anonymously. All messages delete after 24 hours automatically.</p>
                   
                   <h3 style={styles.aboutHeader}>PRIVACY</h3>
-                  <p style={styles.aboutText}>Your data is encrypted end-to-end. Backend stores plain text for 24 hours only. After 24 hours, all messages permanently deleted. Your account persists. Your chat history does not.</p>
+                  <p style={styles.aboutText}>Your chats are private and temporary. Messages automatically delete after 24 hours. Your account stays, your history doesn't.</p>
                   
                   <h3 style={styles.aboutHeader}>FEATURES</h3>
                   <ul style={styles.aboutList}>
                     <li>Anonymous by design</li>
-                    <li>6-digit code search (not usernames)</li>
-                    <li>No edit/delete messages</li>
-                    <li>24-hour auto-deletion</li>
-                    <li>End-to-end encrypted</li>
+                    <li>6-digit code search</li>
+                    <li>Temporary messages</li>
                     <li>No tracking</li>
                     <li>No ads</li>
                     <li>No data selling</li>
-                    <li>No account recovery (intentional)</li>
                   </ul>
 
                   <h3 style={styles.aboutHeader}>SECURITY</h3>
-                  <p style={styles.aboutText}>Passwords encrypted AES-256 in transit. Stored encrypted in browser. Plain text backend (24-hour deletion). Messages encrypted on your device. Only you and recipient can see content.</p>
-
-                  <h3 style={styles.aboutHeader}>TERMS</h3>
-                  <p style={styles.aboutText}>Users responsible for account credentials. No email recovery. No password reset. Lost credentials = lost access.</p>
+                  <p style={styles.aboutText}>Your data is encrypted. Conversations are private and secure.</p>
 
                   <h3 style={styles.aboutHeader}>APP INFO</h3>
                   <ul style={styles.aboutList}>
                     <li>Version: 1.0</li>
                     <li>Created by: Abhishek Singh Shekhawat</li>
-                    <li>Built with: React, Google Sheets, AES-256</li>
-                    <li>Deployed on: Vercel</li>
                   </ul>
                 </div>
               )}
