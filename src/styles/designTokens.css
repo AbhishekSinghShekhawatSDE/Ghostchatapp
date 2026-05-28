@@ -121,3 +121,27 @@ body {
 .footer-text {
   color: var(--text-tertiary);
 }
+
+.author-link {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  animation: pulse-glow 2s infinite alternate;
+  transition: color 0.2s ease, opacity 0.2s ease, text-shadow 0.2s ease;
+}
+
+.author-link:hover {
+  color: #ffffff;
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes pulse-glow {
+  0% {
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+    opacity: 0.8;
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    opacity: 1;
+  }
+}

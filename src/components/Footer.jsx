@@ -11,9 +11,12 @@ const Footer = () => {
         <a href="/copyright" className="footer-link" target="_blank" rel="noreferrer">Copyright</a>
       </div>
       <div style={styles.footerCredits}>
-        <span className="footer-text">&copy; 2026 AnonymousChat</span>
+        <span className="footer-text">&copy; 2026 Ghost Chat</span>
         <span className="footer-text" style={{ margin: '0 8px' }}>|</span>
-        <span className="footer-text">ABHISHEKSINGHSHEKHAWAT.COM</span>
+        <span className="footer-text">VISUAL LABEL = </span>
+        <a href="https://www.abhisheksinghshekhawat.com/" target="_blank" rel="noreferrer" className="author-link" style={{ marginLeft: '4px' }}>
+          ABHISHEK SINGH SHEKHAWAT
+        </a>
       </div>
     </div>
   );
