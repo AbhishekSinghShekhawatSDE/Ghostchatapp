@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, X } from 'lucide-react';
+import { Settings as SettingsIcon, X, Copy } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/designTokens.css';
 
@@ -10,6 +10,12 @@ const Settings = ({ session }) => {
   const handleLogout = () => {
     logout();
     window.location.href = '/login';
+  };
+
+  const copyToClipboard = (text) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    alert('Copied to clipboard!');
   };
 
   return (
@@ -31,17 +37,32 @@ const Settings = ({ session }) => {
             <div style={styles.modalContent}>
               <div style={styles.infoGroup}>
                 <label style={styles.label}>Account Name</label>
-                <div style={styles.value}>{session?.username || '@username'}</div>
+                <div style={styles.valueRow}>
+                  <div style={styles.value}>{session?.username || '@username'}</div>
+                  <button onClick={() => copyToClipboard(session?.username)} style={styles.copyButton} title="Copy Username">
+                    <Copy size={16} />
+                  </button>
+                </div>
               </div>
 
               <div style={styles.infoGroup}>
                 <label style={styles.label}>Your Search Code (Share this)</label>
-                <div style={styles.codeBox}>{session?.searchCode || '------'}</div>
+                <div style={styles.valueRow}>
+                  <div style={styles.codeBox}>{session?.searchCode || '------'}</div>
+                  <button onClick={() => copyToClipboard(session?.searchCode)} style={styles.copyButton} title="Copy Code">
+                    <Copy size={16} />
+                  </button>
+                </div>
               </div>
 
               <div style={styles.infoGroup}>
                 <label style={styles.label}>Your Passphrase (2FA)</label>
-                <div style={styles.codeBox}>{session?.passphrase || '•••••••••••••••'}</div>
+                <div style={styles.valueRow}>
+                  <div style={styles.codeBox}>{session?.passphrase || '•••••••••••••••'}</div>
+                  <button onClick={() => copyToClipboard(session?.passphrase)} style={styles.copyButton} title="Copy Passphrase">
+                    <Copy size={16} />
+                  </button>
+                </div>
                 <p style={styles.warning}>Keep this safe. Do not share.</p>
               </div>
 
@@ -124,16 +145,32 @@ const styles = {
     fontWeight: '500'
   },
   codeBox: {
-    backgroundColor: 'var(--fds-blue-05)',
-    padding: '12px',
-    borderRadius: 'var(--radius-xs)',
-    textAlign: 'center',
     fontFamily: 'monospace',
-    fontSize: '18px',
+    fontSize: '16px',
     fontWeight: 'bold',
-    letterSpacing: '2px',
-    color: 'var(--fds-blue-80)',
+    letterSpacing: '1px',
+    color: 'var(--fds-blue-60)',
+    backgroundColor: 'var(--fds-blue-05)',
+    padding: '8px 12px',
+    borderRadius: 'var(--radius-xs)',
     border: '1px solid var(--fds-blue-30)',
+  },
+  valueRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: '10px'
+  },
+  copyButton: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'var(--fds-blue-60)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '8px',
+    borderRadius: 'var(--radius-xs)',
   },
   warning: {
     fontSize: '11px',
