@@ -45,7 +45,7 @@ const Dashboard = () => {
         style={styles.header}
       >
         <div style={styles.headerLeft}>
-          <h1 style={styles.logo}>AnonymousChat</h1>
+          <h1 style={styles.logo}>Ghost Chat</h1>
         </div>
         
         <div style={styles.headerCenter}>

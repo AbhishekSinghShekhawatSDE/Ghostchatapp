@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSession } from './useSession';
 import { apiClient } from '../services/apiClient';
-import { hashString } from '../utils/crypto';
+import { hashString, encryptData } from '../utils/crypto';
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -12,10 +12,9 @@ export const useAuth = () => {
     setLoading(true);
     setError(null);
     try {
-      const passwordHash = await hashString(password);
-      const passphraseHash = await hashString(passphrase);
+      const encryptedPassword = encryptData(password);
       
-      const res = await apiClient.post('login', { username, passwordHash, passphraseHash });
+      const res = await apiClient.post('login', { username, encryptedPassword, passphrase });
       
       if (res.error) {
         throw new Error(res.error);

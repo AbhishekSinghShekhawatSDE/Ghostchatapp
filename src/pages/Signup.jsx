@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Copy, Eye, EyeOff } from 'lucide-react';
-import { generateRandomString, hashString } from '../utils/crypto';
+import { generateRandomString, hashString, encryptData } from '../utils/crypto';
 import { apiClient } from '../services/apiClient';
 import Footer from '../components/Footer';
 import '../styles/designTokens.css';
@@ -15,21 +16,24 @@ const Signup = () => {
   const [legalAccepted, setLegalAccepted] = useState(false);
   const [savedPassphrase, setSavedPassphrase] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInitialSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password || !legalAccepted) return;
     
+    setLoading(true);
     try {
-      const passwordHash = await hashString(password);
+      const encryptedPassword = encryptData(password);
       
       const res = await apiClient.post('register', { 
         username, 
-        passwordHash 
+        encryptedPassword 
       });
 
       if (res.error) {
         alert(res.error);
+        setLoading(false);
         return;
       }
 
@@ -39,6 +43,8 @@ const Signup = () => {
     } catch (err) {
       console.error(err);
       alert('Registration failed. Make sure your backend is configured.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,7 +67,7 @@ const Signup = () => {
         className="glass-card"
         style={styles.card}
       >
-        <h1 style={styles.logo}>AnonymousChat</h1>
+        <h1 style={styles.logo}>Ghost Chat</h1>
         
         {step === 1 ? (
           <motion.form 
@@ -118,11 +124,23 @@ const Signup = () => {
             <button 
               type="submit" 
               className="glass-button"
-              style={{opacity: (!username || !password || !legalAccepted) ? 0.5 : 1}}
-              disabled={!username || !password || !legalAccepted}
+              style={{opacity: (!username || !password || !legalAccepted || loading) ? 0.7 : 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px'}}
+              disabled={!username || !password || !legalAccepted || loading}
             >
-              Sign Up Securely
+              {loading ? (
+                <>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                    style={{ width: '18px', height: '18px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid #fff', borderRadius: '50%' }}
+                  />
+                  Creating...
+                </>
+              ) : 'Sign Up Securely'}
             </button>
+            <div style={{ textAlign: 'center', marginTop: '15px' }}>
+              <Link to="/login" style={styles.link}>Already have account? Log in</Link>
+            </div>
           </motion.form>
         ) : (
           <motion.div

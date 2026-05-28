@@ -1,3 +1,16 @@
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = 'GHOST_CHAT_SHARED_SECRET_KEY';
+
+export function encryptData(data) {
+  return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
+}
+
+export function decryptData(encryptedData) {
+  const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
+  return bytes.toString(CryptoJS.enc.Utf8);
+}
+
 // Generate a random string of given length
 export function generateRandomString(length) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

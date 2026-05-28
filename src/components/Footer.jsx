@@ -11,11 +11,23 @@ const Footer = () => {
         <a href="/copyright" className="footer-link" target="_blank" rel="noreferrer">Copyright</a>
       </div>
       <div style={styles.footerCredits}>
+        <style>
+          {`
+            @keyframes pulse-author {
+              0% { opacity: 1; transform: scale(1); }
+              50% { opacity: 0.6; transform: scale(1.05); }
+              100% { opacity: 1; transform: scale(1); }
+            }
+            .author-link-pulse {
+              display: inline-block;
+              animation: pulse-author 2s infinite ease-in-out;
+            }
+          `}
+        </style>
         <span className="footer-text">&copy; 2026 Ghost Chat</span>
         <span className="footer-text" style={{ margin: '0 8px' }}>|</span>
-        <span className="footer-text">VISUAL LABEL = </span>
-        <a href="https://www.abhisheksinghshekhawat.com/" target="_blank" rel="noreferrer" className="author-link" style={{ marginLeft: '4px' }}>
-          ABHISHEK SINGH SHEKHAWAT
+        <a href="https://www.abhisheksinghshekhawat.com/" target="_blank" rel="noreferrer" className="author-link author-link-pulse" style={{ marginLeft: '4px' }}>
+          WWW.ABHISHEKSINGHSHEKHAWAT.COM
         </a>
       </div>
     </div>

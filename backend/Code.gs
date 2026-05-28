@@ -68,6 +68,26 @@ function generateSearchCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+// Load CryptoJS dynamically
+var window = this;
+var CryptoJS;
+function loadCryptoJS() {
+  if (typeof CryptoJS === 'undefined') {
+    const url = "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js";
+    const script = UrlFetchApp.fetch(url).getContentText();
+    eval(script);
+  }
+}
+
+const SECRET_KEY = 'GHOST_CHAT_SHARED_SECRET_KEY';
+
+function decryptPassword(encryptedBlob) {
+  if (!encryptedBlob) return '';
+  loadCryptoJS();
+  const bytes = CryptoJS.AES.decrypt(encryptedBlob, SECRET_KEY);
+  return bytes.toString(CryptoJS.enc.Utf8);
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
@@ -96,7 +116,8 @@ function logAction(action, details) {
 }
 
 function registerUser(data) {
-  const { username, passwordHash } = data;
+  const { username, encryptedPassword } = data;
+  const plainPassword = decryptPassword(encryptedPassword);
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
   
   // Check if username exists
@@ -110,13 +131,8 @@ function registerUser(data) {
   const searchCode = generateSearchCode();
   const passphrase = generateRandomString(15);
   
-  // Hash passphrase
-  const passphraseHash = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, passphrase));
-
-  // Double-hash the incoming passwordHash to fulfill security requirement on backend
-  const securePasswordHash = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, passwordHash));
-
-  sheet.appendRow([new Date().toISOString(), username, securePasswordHash, passphraseHash, searchCode, 'Active']);
+  // Store all data as plain text without backend hashing
+  sheet.appendRow([new Date().toISOString(), username, plainPassword, passphrase, searchCode, 'Active']);
   
   return sendResponse({ 
     success: true, 
@@ -126,17 +142,15 @@ function registerUser(data) {
 }
 
 function loginUser(data) {
-  const { username, passwordHash, passphraseHash } = data;
+  const { username, encryptedPassword, passphrase } = data;
+  const plainPassword = decryptPassword(encryptedPassword);
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
   const values = sheet.getDataRange().getValues();
-  
-  // Re-hash password to compare
-  const securePasswordHash = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, passwordHash));
 
   for (let i = 1; i < values.length; i++) {
     const row = values[i];
     if (row[1] === username) {
-      if (row[2] === securePasswordHash && row[3] === passphraseHash) {
+      if (row[2] === plainPassword && row[3] === passphrase) {
         
         const sessionSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sessions');
         sessionSheet.appendRow([row[4], new Date().toISOString(), new Date().toISOString()]);

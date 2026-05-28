@@ -7,6 +7,28 @@ export const useChat = (session) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   
+  // Persist to and load from encrypted localStorage
+  useEffect(() => {
+    try {
+      const savedMsgs = localStorage.getItem('anon_chat_messages');
+      if (savedMsgs) setMessages(JSON.parse(decodeURIComponent(atob(savedMsgs))));
+      const savedConvos = localStorage.getItem('anon_chat_convos');
+      if (savedConvos) setConversations(JSON.parse(decodeURIComponent(atob(savedConvos))));
+    } catch (e) { console.error('Failed to decode local storage', e); }
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('anon_chat_messages', btoa(encodeURIComponent(JSON.stringify(messages))));
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (conversations.length > 0) {
+      localStorage.setItem('anon_chat_convos', btoa(encodeURIComponent(JSON.stringify(conversations))));
+    }
+  }, [conversations]);
+  
   // Use ref to keep track of last sync time across renders without triggering effects
   const lastSyncTime = useRef(0);
 

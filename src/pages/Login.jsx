@@ -34,7 +34,7 @@ const Login = () => {
         className="glass-card"
         style={styles.card}
       >
-        <h1 style={styles.logo}>AnonymousChat</h1>
+        <h1 style={styles.logo}>Ghost Chat</h1>
         
         <form onSubmit={handleLogin} style={styles.form}>
           <h2 style={styles.title}>Secure Login</h2>
@@ -94,15 +94,24 @@ const Login = () => {
           <button 
             type="submit" 
             className="glass-button"
-            style={{opacity: loading ? 0.5 : 1}}
+            style={{opacity: loading ? 0.7 : 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px'}}
             disabled={loading}
           >
-            {loading ? 'Authenticating...' : 'Log in Securely'}
+            {loading ? (
+              <>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                  style={{ width: '18px', height: '18px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid #fff', borderRadius: '50%' }}
+                />
+                Authenticating...
+              </>
+            ) : 'Log in Securely'}
           </button>
         </form>
 
         <div style={styles.links}>
-          <Link to="/signup" style={styles.link}>Create new identity</Link>
+          <Link to="/signup" style={styles.link}>Don't have account? Sign up</Link>
         </div>
       </motion.div>
 

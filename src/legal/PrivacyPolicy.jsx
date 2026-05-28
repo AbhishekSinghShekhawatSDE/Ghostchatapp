@@ -6,7 +6,6 @@ import '../styles/designTokens.css';
 const PrivacyPolicy = () => {
   return (
     <div style={styles.container}>
-    <div style={styles.container}>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
