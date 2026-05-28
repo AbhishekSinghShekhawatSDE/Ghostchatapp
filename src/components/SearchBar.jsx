@@ -14,48 +14,47 @@ const SearchBar = ({ onSearch, loading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={styles.container}>
-      <div style={styles.inputWrapper}>
-        <Search size={18} color="var(--fds-dark-mode-gray-50)" />
-        <input 
-          type="text" 
-          maxLength="6"
-          placeholder="Search by 6-digit code..." 
-          value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-          style={styles.input}
-          disabled={loading}
-        />
-      </div>
+    <form onSubmit={handleSubmit} style={styles.form}>
+      <input 
+        type="text" 
+        placeholder="Enter 6-digit Search Code" 
+        value={code}
+        onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+        className="glass-input"
+        style={styles.input}
+      />
+      <button 
+        type="submit" 
+        className="glass-button"
+        style={{...styles.button, opacity: loading || code.length !== 6 ? 0.5 : 1}}
+        disabled={loading || code.length !== 6}
+      >
+        <Search size={18} />
+      </button>
     </form>
   );
 };
 
 const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-    maxWidth: '400px',
-    margin: '0 auto',
-  },
-  inputWrapper: {
+  form: {
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: '#FAFAFA',
-    border: '1px solid var(--fds-dark-mode-gray-35)',
-    borderRadius: 'var(--radius-xl)',
-    padding: '8px 16px',
+    gap: '10px',
     width: '100%',
-    gap: '10px'
+    maxWidth: '400px',
   },
   input: {
-    border: 'none',
-    backgroundColor: 'transparent',
-    outline: 'none',
-    width: '100%',
-    fontSize: '14px',
-    color: 'var(--text-primary)'
+    flex: 1,
+    fontFamily: 'monospace',
+    letterSpacing: '2px',
+    fontSize: '16px',
+    textAlign: 'center',
+  },
+  button: {
+    padding: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 };
 

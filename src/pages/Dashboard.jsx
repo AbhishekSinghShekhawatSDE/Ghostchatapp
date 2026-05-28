@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { useChat } from '../hooks/useChat';
 import SearchBar from '../components/SearchBar';
@@ -18,10 +19,10 @@ const Dashboard = () => {
     conversations, 
     activeChat, 
     messages, 
-    selectChat, 
+    selectChat: setActiveChat, 
     sendMessage, 
-    searchUser, 
-    loading 
+    searchUser: handleSearch, 
+    loading: searchLoading 
   } = useChat(session);
 
   useEffect(() => {
@@ -36,33 +37,48 @@ const Dashboard = () => {
     <div style={styles.layout}>
       <OnboardingModal />
       {/* Top Navigation Bar */}
-      <header style={styles.header}>
+      <motion.header 
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="glass-card"
+        style={styles.header}
+      >
         <div style={styles.headerLeft}>
-          <h1 style={styles.logo}>AnonChat</h1>
+          <h1 style={styles.logo}>AnonymousChat</h1>
         </div>
         
         <div style={styles.headerCenter}>
-          <SearchBar onSearch={searchUser} loading={loading} />
+          <SearchBar onSearch={handleSearch} loading={searchLoading} />
         </div>
         
         <div style={styles.headerRight}>
           <Settings session={session} />
         </div>
-      </header>
+      </motion.header>
 
       {/* Main Content Area */}
-      <main style={styles.main}>
-        <Inbox 
-          conversations={conversations} 
-          activeChat={activeChat} 
-          onSelectChat={selectChat} 
-        />
-        <Chat 
-          activeChat={activeChat} 
-          messages={messages} 
-          onSendMessage={sendMessage} 
-        />
-      </main>
+      <motion.main 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.1 }}
+        style={styles.mainContent}
+      >
+        <div className="glass-card" style={styles.sidebar}>
+          <Inbox 
+            conversations={conversations} 
+            activeChat={activeChat} 
+            onSelectChat={setActiveChat} 
+          />
+        </div>
+        
+        <div className="glass-card" style={styles.chatArea}>
+          <Chat 
+            activeChat={activeChat} 
+            messages={messages} 
+            onSendMessage={sendMessage} 
+          />
+        </div>
+      </motion.main>
     </div>
   );
 };
@@ -72,46 +88,63 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     height: '100vh',
-    width: '100vw',
     overflow: 'hidden',
+    padding: '20px',
+    boxSizing: 'border-box',
+    gap: '20px',
     backgroundColor: 'var(--bg-primary)'
   },
   header: {
-    height: '64px',
-    backgroundColor: 'var(--bg-surface)',
-    borderBottom: '1px solid rgba(17, 17, 18, 0.1)',
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
     padding: '0 20px',
-    zIndex: 10
+    height: '70px',
+    flexShrink: 0,
+    border: 'none',
   },
   headerLeft: {
     flex: 1,
-    display: 'flex',
-    alignItems: 'center'
-  },
-  logo: {
-    margin: 0,
-    fontFamily: 'cursive',
-    fontSize: '20px',
-    color: 'var(--fds-black)'
   },
   headerCenter: {
     flex: 2,
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   headerRight: {
     flex: 1,
     display: 'flex',
     justifyContent: 'flex-end',
-    alignItems: 'center'
   },
-  main: {
+  logo: {
+    fontSize: '22px',
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '800',
+    letterSpacing: '-1px',
+    margin: 0,
+    background: 'linear-gradient(135deg, #fff, #AEAEB2)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  },
+  mainContent: {
+    display: 'flex',
+    flex: 1,
+    gap: '20px',
+    overflow: 'hidden',
+  },
+  sidebar: {
+    width: '320px',
+    display: 'flex',
+    flexDirection: 'column',
+    border: 'none',
+    overflow: 'hidden',
+  },
+  chatArea: {
     flex: 1,
     display: 'flex',
-    overflow: 'hidden'
+    flexDirection: 'column',
+    border: 'none',
+    overflow: 'hidden',
   }
 };
 

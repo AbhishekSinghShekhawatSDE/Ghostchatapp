@@ -22,23 +22,26 @@ const Login = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={{...styles.container, background: 'transparent'}}>
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="glass-card"
         style={styles.card}
       >
         <h1 style={styles.logo}>AnonymousChat</h1>
         
         <form onSubmit={handleLogin} style={styles.form}>
           <h2 style={styles.title}>Secure Login</h2>
+          <p style={styles.subtitle}>Enter your credentials to access your secure session.</p>
           
           <input 
             type="text" 
             placeholder="Username (@username)" 
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            style={styles.input}
+            className="glass-input"
             required
           />
           
@@ -47,7 +50,7 @@ const Login = () => {
             placeholder="Password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
+            className="glass-input"
             required
           />
 
@@ -56,7 +59,7 @@ const Login = () => {
             placeholder="Passphrase (2FA)" 
             value={passphrase}
             onChange={(e) => setPassphrase(e.target.value)}
-            style={styles.input}
+            className="glass-input"
             required
           />
 
@@ -64,15 +67,16 @@ const Login = () => {
 
           <button 
             type="submit" 
-            style={{...styles.button, opacity: loading ? 0.7 : 1}}
+            className="glass-button"
+            style={{opacity: loading ? 0.5 : 1}}
             disabled={loading}
           >
-            {loading ? 'Logging in...' : 'Log in'}
+            {loading ? 'Authenticating...' : 'Log in Securely'}
           </button>
         </form>
 
         <div style={styles.links}>
-          <a href="/signup" style={styles.link}>Create new account</a>
+          <a href="/signup" style={styles.link}>Create new identity</a>
         </div>
       </motion.div>
 
@@ -97,69 +101,64 @@ const styles = {
     padding: '20px',
   },
   card: {
-    backgroundColor: 'var(--bg-surface)',
     padding: '40px',
-    borderRadius: 'var(--radius-sm)',
-    boxShadow: 'var(--shadow-1)',
     width: '100%',
-    maxWidth: '350px',
-    border: '1px solid rgba(17, 17, 18, 0.1)',
+    maxWidth: '400px',
   },
   logo: {
     textAlign: 'center',
-    fontFamily: 'cursive',
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '800',
+    letterSpacing: '-1px',
     margin: '0 0 20px 0',
+    background: 'linear-gradient(135deg, #fff, #AEAEB2)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
+    gap: '15px',
   },
   title: {
-    fontSize: '16px',
-    color: 'var(--fds-dark-mode-gray-50)',
+    fontSize: '20px',
+    color: 'var(--text-primary)',
     textAlign: 'center',
-    fontWeight: '500',
-    marginBottom: '10px',
-  },
-  input: {
-    padding: '10px 12px',
-    borderRadius: 'var(--radius-xs)',
-    border: '1px solid var(--fds-dark-mode-gray-35)',
-    backgroundColor: '#FAFAFA',
-    fontSize: '14px',
-  },
-  button: {
-    backgroundColor: 'var(--fds-blue-60)',
-    color: '#fff',
-    border: 'none',
-    padding: '8px 16px',
-    borderRadius: 'var(--radius-xs)',
     fontWeight: '600',
-    cursor: 'pointer',
-    marginTop: '10px',
+    marginBottom: '5px',
+    marginTop: 0,
+  },
+  subtitle: {
+    fontSize: '14px',
+    color: 'var(--text-secondary)',
+    textAlign: 'center',
+    marginBottom: '15px',
+    marginTop: 0,
   },
   links: {
-    marginTop: '20px',
+    marginTop: '25px',
     textAlign: 'center',
   },
   link: {
-    color: 'var(--fds-blue-60)',
+    color: 'var(--brand-primary)',
     textDecoration: 'none',
     fontSize: '14px',
     fontWeight: '500',
   },
   errorText: {
-    color: '#E0245E',
-    fontSize: '12px',
+    color: 'var(--brand-error)',
+    fontSize: '13px',
     textAlign: 'center',
+    backgroundColor: 'rgba(255, 69, 58, 0.1)',
+    padding: '10px',
+    borderRadius: 'var(--radius-xs)',
   },
   footer: {
     marginTop: '40px',
     display: 'flex',
     gap: '15px',
     fontSize: '12px',
-    color: 'var(--fds-dark-mode-gray-50)',
+    color: 'var(--text-tertiary)',
   }
 };
 

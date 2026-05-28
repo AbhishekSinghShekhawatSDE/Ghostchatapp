@@ -51,34 +51,42 @@ const Signup = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={{...styles.container, background: 'transparent'}}>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="glass-card"
         style={styles.card}
       >
         <h1 style={styles.logo}>AnonymousChat</h1>
         
-        {step === 1 && (
-          <form onSubmit={handleInitialSubmit} style={styles.form}>
-            <h2 style={styles.title}>Sign up to chat privately</h2>
-            
+        {step === 1 ? (
+          <motion.form 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            onSubmit={handleInitialSubmit} 
+            style={styles.form}
+          >
+            <h2 style={styles.title}>Create Secure Identity</h2>
+            <p style={styles.subtitle}>No email. No phone number. Complete privacy.</p>
+
             <input 
               type="text" 
-              placeholder="Username (@username)" 
+              placeholder="Create a username (@username)" 
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              style={styles.input}
+              className="glass-input"
               required
             />
             
             <input 
               type="password" 
-              placeholder="Password" 
+              placeholder="Create a strong password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={styles.input}
+              className="glass-input"
               required
             />
 
@@ -88,27 +96,26 @@ const Signup = () => {
                 id="legal" 
                 checked={legalAccepted}
                 onChange={(e) => setLegalAccepted(e.target.checked)}
-                required
               />
               <label htmlFor="legal" style={styles.legalText}>
-                I agree to the Privacy Policy, Terms of Service, and Disclaimer.
+                I agree to the <a href="/privacy" target="_blank" rel="noreferrer" style={styles.link}>Privacy Policy</a>, <a href="/terms" target="_blank" rel="noreferrer" style={styles.link}>Terms of Service</a>, and <a href="/disclaimer" target="_blank" rel="noreferrer" style={styles.link}>Disclaimer</a>.
               </label>
             </div>
 
             <button 
               type="submit" 
-              style={{...styles.button, opacity: legalAccepted && username && password ? 1 : 0.7}}
-              disabled={!legalAccepted || !username || !password}
+              className="glass-button"
+              style={{opacity: (!username || !password || !legalAccepted) ? 0.5 : 1}}
+              disabled={!username || !password || !legalAccepted}
             >
-              Sign up
+              Sign Up Securely
             </button>
-          </form>
-        )}
-
-        {step === 2 && (
-          <motion.div 
+          </motion.form>
+        ) : (
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 100 }}
             style={styles.form}
           >
             <h2 style={styles.title}>Your Credentials</h2>
@@ -146,7 +153,8 @@ const Signup = () => {
 
             <button 
               onClick={handleFinalSignup} 
-              style={{...styles.button, opacity: savedPassphrase ? 1 : 0.7}}
+              className="glass-button"
+              style={{marginTop: '15px', opacity: savedPassphrase ? 1 : 0.5}}
               disabled={!savedPassphrase}
             >
               Complete Registration
@@ -176,62 +184,61 @@ const styles = {
     padding: '20px',
   },
   card: {
-    backgroundColor: 'var(--bg-surface)',
     padding: '40px',
-    borderRadius: 'var(--radius-sm)',
-    boxShadow: 'var(--shadow-1)',
     width: '100%',
-    maxWidth: '350px',
-    border: '1px solid rgba(17, 17, 18, 0.1)',
+    maxWidth: '400px',
   },
   logo: {
     textAlign: 'center',
-    fontFamily: 'cursive', // Placeholder for a brand font
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '800',
+    letterSpacing: '-1px',
     margin: '0 0 20px 0',
+    background: 'linear-gradient(135deg, #fff, #AEAEB2)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
+    gap: '15px',
   },
   title: {
-    fontSize: '16px',
-    color: 'var(--fds-dark-mode-gray-50)',
+    fontSize: '20px',
+    color: 'var(--text-primary)',
     textAlign: 'center',
-    fontWeight: '500',
-    marginBottom: '10px',
-  },
-  input: {
-    padding: '10px 12px',
-    borderRadius: 'var(--radius-xs)',
-    border: '1px solid var(--fds-dark-mode-gray-35)',
-    backgroundColor: '#FAFAFA',
-    fontSize: '14px',
-  },
-  button: {
-    backgroundColor: 'var(--fds-blue-60)',
-    color: '#fff',
-    border: 'none',
-    padding: '8px 16px',
-    borderRadius: 'var(--radius-xs)',
     fontWeight: '600',
-    cursor: 'pointer',
-    marginTop: '10px',
+    marginBottom: '5px',
+    marginTop: 0,
+  },
+  subtitle: {
+    fontSize: '14px',
+    color: 'var(--text-secondary)',
+    textAlign: 'center',
+    marginBottom: '15px',
+    marginTop: 0,
   },
   checkboxContainer: {
     display: 'flex',
     alignItems: 'flex-start',
-    gap: '8px',
+    gap: '10px',
     marginTop: '10px',
   },
   legalText: {
     fontSize: '12px',
-    color: 'var(--fds-dark-mode-gray-50)',
+    color: 'var(--text-secondary)',
     lineHeight: '1.4',
   },
+  link: {
+    color: 'var(--brand-primary)',
+    textDecoration: 'none',
+  },
   warningText: {
-    fontSize: '14px',
-    color: '#E0245E',
+    fontSize: '12px',
+    color: 'var(--brand-warning)',
+    backgroundColor: 'rgba(255, 159, 10, 0.1)',
+    padding: '10px',
+    borderRadius: 'var(--radius-xs)',
     textAlign: 'center',
     fontWeight: '500',
   },
@@ -239,22 +246,22 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'var(--fds-blue-05)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     padding: '12px 15px',
     borderRadius: 'var(--radius-xs)',
     fontFamily: 'monospace',
     fontSize: '16px',
     fontWeight: 'bold',
     letterSpacing: '1px',
-    color: 'var(--fds-blue-80)',
-    border: '1px solid var(--fds-blue-30)',
+    color: 'var(--brand-primary)',
+    border: '1px solid var(--glass-border)',
     marginBottom: '10px',
   },
   copyButton: {
     background: 'none',
     border: 'none',
     cursor: 'pointer',
-    color: 'var(--fds-blue-60)',
+    color: 'var(--text-secondary)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -262,7 +269,7 @@ const styles = {
   label: {
     fontSize: '12px',
     fontWeight: '600',
-    color: 'var(--fds-dark-mode-gray-50)',
+    color: 'var(--text-secondary)',
     marginTop: '5px',
   },
   footer: {
@@ -270,7 +277,7 @@ const styles = {
     display: 'flex',
     gap: '15px',
     fontSize: '12px',
-    color: 'var(--fds-dark-mode-gray-50)',
+    color: 'var(--text-tertiary)',
   }
 };
 

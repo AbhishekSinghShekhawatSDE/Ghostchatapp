@@ -1,46 +1,105 @@
 :root {
-  --fds-black: #000000;
-  --fds-blue-60: #1877F2;
-  --fds-blue-70: #2851A3;
-  --fds-blue-80: #1D3C78;
-  --fds-button-text: #444950;
-  --fds-comment-background: #F2F3F5;
-  --fds-dark-mode-gray-100: #1C1C1C;
-  --fds-dark-mode-gray-90: #282828;
-  --fds-dark-mode-gray-80: #373737;
-  --fds-dark-mode-gray-70: #4A4A4A;
-  --fds-dark-mode-gray-50: #828282;
-  --fds-dark-mode-gray-35: #CCCCCC;
-  --fds-blue-05: #ECF3FF;
-  --fds-blue-30: #AAC9FF;
-  --fds-blue-40: #77A7FF;
+  /* Premium Palette (Apple/Stripe Inspired) */
+  --brand-primary: #0A84FF; /* iOS Blue */
+  --brand-secondary: #5E5CE6; /* Deep Indigo */
+  --brand-accent: #32D74B; /* Success Green */
+  --brand-error: #FF453A; /* Crimson */
+  --brand-warning: #FF9F0A; /* Orange */
   
-  --shadow-1: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-  --shadow-2: 0 8px 20px 0 var(--shadow-2), 0 2px 4px 0 var(--shadow-1);
-  --shadow-3: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-  --shadow-4: 0 12px 28px 0 var(--shadow-2), 0 2px 4px 0 var(--shadow-1);
-  --shadow-5: 0px 0px 16px rgba(0, 0, 0, 0.3);
+  --bg-dark: #000000;
+  --bg-surface: rgba(28, 28, 30, 0.65);
   
-  --radius-xl: 24px;
-  --radius-lg: 20px;
-  --radius-md: 18px;
-  --radius-sm: 12px;
-  --radius-xs: 6px;
-  --radius-xxs: 4px;
+  --text-primary: #F2F2F7;
+  --text-secondary: #AEAEB2;
+  --text-tertiary: #8E8E93;
 
-  --bg-primary: #F5F6F7;
-  --bg-surface: #ffffff;
-  --text-primary: var(--fds-black);
-  --text-secondary: var(--fds-dark-mode-gray-50);
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(16px);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  /* Animated Mesh Gradient Background */
+  background: radial-gradient(circle at top left, #1c1c1e, #000000),
+              radial-gradient(circle at bottom right, #0A84FF22, #000000);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Glassmorphic Utility Classes */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-md);
+}
+
+.glass-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.glass-button {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px 0 rgba(10, 132, 255, 0.39);
+}
+
+.glass-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(10, 132, 255, 0.5);
+}
+
+.glass-button:active {
+  transform: translateY(0);
+}
+
+/* Scrollbar Polish */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 * {

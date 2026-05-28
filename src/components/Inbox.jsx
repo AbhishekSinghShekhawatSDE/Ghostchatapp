@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import '../styles/designTokens.css';
 
 const Inbox = ({ conversations, activeChat, onSelectChat }) => {
@@ -13,13 +14,17 @@ const Inbox = ({ conversations, activeChat, onSelectChat }) => {
         </div>
       ) : (
         <div style={styles.list}>
-          {conversations.map(chat => (
-            <div 
+          {conversations.map((chat, i) => (
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.05 }}
               key={chat.code} 
               onClick={() => onSelectChat(chat)}
               style={{
                 ...styles.chatItem,
-                backgroundColor: activeChat?.code === chat.code ? 'var(--fds-blue-05)' : 'transparent'
+                backgroundColor: activeChat?.code === chat.code ? 'rgba(10, 132, 255, 0.15)' : 'transparent',
+                borderLeft: activeChat?.code === chat.code ? '3px solid var(--brand-primary)' : '3px solid transparent'
               }}
             >
               <div style={styles.avatar}>
@@ -29,7 +34,7 @@ const Inbox = ({ conversations, activeChat, onSelectChat }) => {
                 <div style={styles.chatName}>User #{chat.code}</div>
                 <div style={styles.lastMessage}>{chat.lastMessage || 'New conversation'}</div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       )}
@@ -39,43 +44,45 @@ const Inbox = ({ conversations, activeChat, onSelectChat }) => {
 
 const styles = {
   container: {
-    width: '300px',
-    borderRight: '1px solid rgba(17, 17, 18, 0.1)',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    backgroundColor: 'var(--bg-surface)'
+    backgroundColor: 'transparent'
   },
   header: {
     padding: '20px',
     margin: 0,
     fontSize: '20px',
     fontWeight: '600',
-    borderBottom: '1px solid rgba(17, 17, 18, 0.1)'
+    borderBottom: '1px solid var(--glass-border)',
+    color: 'var(--text-primary)'
   },
   list: {
     flex: 1,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    paddingTop: '10px'
   },
   chatItem: {
     display: 'flex',
     alignItems: 'center',
-    padding: '15px 20px',
+    padding: '12px 20px',
     cursor: 'pointer',
-    borderBottom: '1px solid rgba(17, 17, 18, 0.05)',
-    transition: 'background-color 0.2s'
+    transition: 'all 0.2s ease',
+    marginBottom: '2px',
   },
   avatar: {
     width: '45px',
     height: '45px',
     borderRadius: '50%',
-    backgroundColor: 'var(--fds-dark-mode-gray-35)',
+    background: 'linear-gradient(135deg, var(--brand-primary), var(--brand-secondary))',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 'bold',
     color: '#fff',
-    marginRight: '15px'
+    marginRight: '15px',
+    boxShadow: '0 4px 10px rgba(10, 132, 255, 0.3)'
   },
   chatInfo: {
     flex: 1,
@@ -83,12 +90,13 @@ const styles = {
   },
   chatName: {
     fontWeight: '600',
-    fontSize: '14px',
-    marginBottom: '4px'
+    fontSize: '15px',
+    marginBottom: '4px',
+    color: 'var(--text-primary)'
   },
   lastMessage: {
     fontSize: '13px',
-    color: 'var(--fds-dark-mode-gray-50)',
+    color: 'var(--text-secondary)',
     marginTop: '2px',
   },
   emptyState: {

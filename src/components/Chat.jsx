@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Send } from 'lucide-react';
 import '../styles/designTokens.css';
 
-const Chat = ({ activeChat, messages, onSendMessage }) => {
-  const [inputText, setInputText] = useState('');
+const Chat = ({ activeChat, messages, onSendMessage, session }) => {
+  const [newMessage, setNewMessage] = useState('');
+  const messagesEndRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleSend = (e) => {
     e.preventDefault();
-    if (inputText.trim()) {
-      onSendMessage(inputText);
-      setInputText('');
+    if (newMessage.trim()) {
+      onSendMessage(newMessage);
+      setNewMessage('');
     }
   };
 
@@ -24,46 +34,64 @@ const Chat = ({ activeChat, messages, onSendMessage }) => {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <div style={styles.headerInfo}>
-          <div style={styles.avatar}>{activeChat.code.substring(0,2)}</div>
-          <span style={styles.headerName}>User #{activeChat.code}</span>
+        <div style={styles.headerUserInfo}>
+          <div style={styles.pulseIndicator}></div>
+          <h3 style={styles.headerTitle}>User #{activeChat.code}</h3>
         </div>
       </div>
       
       <div style={styles.messageList}>
-        {messages.map(msg => (
-          <div 
-            key={msg.id} 
-            style={{
-              ...styles.messageWrapper, 
-              justifyContent: msg.isOwn ? 'flex-end' : 'flex-start'
-            }}
-          >
-            <div 
-              style={{
-                ...styles.messageBubble,
-                backgroundColor: msg.isOwn ? 'var(--fds-blue-60)' : 'var(--fds-comment-background)',
-                color: msg.isOwn ? '#fff' : 'var(--text-primary)',
-                borderBottomRightRadius: msg.isOwn ? '4px' : '18px',
-                borderBottomLeftRadius: !msg.isOwn ? '4px' : '18px',
-              }}
-            >
-              {msg.text}
-            </div>
-          </div>
-        ))}
+        <AnimatePresence>
+          {messages.map((msg, index) => {
+            const isMe = msg.senderCode === session.searchCode;
+            return (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                key={msg.id || index} 
+                style={{
+                  ...styles.messageWrapper,
+                  alignItems: isMe ? 'flex-end' : 'flex-start'
+                }}
+              >
+                <div style={{
+                  ...styles.messageBubble,
+                  background: isMe ? 'linear-gradient(135deg, var(--brand-primary), var(--brand-secondary))' : 'rgba(255, 255, 255, 0.1)',
+                  color: isMe ? '#fff' : 'var(--text-primary)',
+                  border: isMe ? 'none' : '1px solid var(--glass-border)'
+                }}>
+                  {msg.text}
+                </div>
+                <div style={{
+                  ...styles.messageTime,
+                  alignSelf: isMe ? 'flex-end' : 'flex-start',
+                }}>
+                  {new Date(msg.timestamp || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+        <div ref={messagesEndRef} />
       </div>
-      
-      <form onSubmit={handleSubmit} style={styles.inputArea}>
+
+      <form onSubmit={handleSend} style={styles.inputArea}>
         <input 
           type="text" 
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          placeholder="Message..."
-          style={styles.textInput}
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Enter your message" 
+          className="glass-input"
+          style={styles.input}
         />
-        <button type="submit" style={styles.sendButton} disabled={!inputText.trim()}>
-          <Send size={20} color={inputText.trim() ? 'var(--fds-blue-60)' : 'var(--fds-dark-mode-gray-50)'} />
+        <button 
+          type="submit" 
+          className="glass-button"
+          disabled={!newMessage.trim()}
+          style={{...styles.sendButton, opacity: !newMessage.trim() ? 0.5 : 1}}
+        >
+          <Send size={18} />
         </button>
       </form>
     </div>
@@ -77,7 +105,7 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'var(--bg-surface)',
+    backgroundColor: 'transparent',
     color: 'var(--fds-dark-mode-gray-50)',
   },
   emptyIcon: {
@@ -99,34 +127,34 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'var(--bg-surface)'
+    backgroundColor: 'transparent',
+    height: '100%',
   },
   header: {
-    padding: '20px',
-    borderBottom: '1px solid rgba(17, 17, 18, 0.1)',
-    display: 'flex',
-    alignItems: 'center'
-  },
-  headerInfo: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  avatar: {
-    width: '35px',
-    height: '35px',
-    borderRadius: '50%',
-    backgroundColor: 'var(--fds-dark-mode-gray-35)',
+    padding: '15px 20px',
+    borderBottom: '1px solid var(--glass-border)',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    color: '#fff',
-    marginRight: '12px',
-    fontSize: '12px'
+    backgroundColor: 'rgba(0,0,0,0.2)'
   },
-  headerName: {
+  headerUserInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  },
+  pulseIndicator: {
+    width: '8px',
+    height: '8px',
+    backgroundColor: 'var(--brand-accent)',
+    borderRadius: '50%',
+    boxShadow: '0 0 10px var(--brand-accent)',
+    animation: 'pulse 2s infinite'
+  },
+  headerTitle: {
+    margin: 0,
+    fontSize: '16px',
     fontWeight: '600',
-    fontSize: '16px'
+    color: 'var(--text-primary)'
   },
   messageList: {
     flex: 1,
@@ -134,42 +162,49 @@ const styles = {
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    gap: '10px'
   },
   messageWrapper: {
     display: 'flex',
-    width: '100%'
+    flexDirection: 'column',
+    marginBottom: '15px',
+    width: '100%',
   },
   messageBubble: {
-    padding: '10px 15px',
-    borderRadius: '18px',
     maxWidth: '70%',
-    fontSize: '14px',
-    lineHeight: '1.4'
+    padding: '10px 15px',
+    borderRadius: 'var(--radius-md)',
+    fontSize: '15px',
+    lineHeight: '1.4',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+  },
+  messageTime: {
+    fontSize: '11px',
+    color: 'var(--text-tertiary)',
+    marginTop: '4px',
+    marginRight: '4px',
+    marginLeft: '4px'
   },
   inputArea: {
-    padding: '20px',
-    borderTop: '1px solid rgba(17, 17, 18, 0.1)',
+    padding: '15px 20px',
+    borderTop: '1px solid var(--glass-border)',
     display: 'flex',
-    alignItems: 'center',
-    gap: '15px'
+    gap: '10px',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    alignItems: 'center'
   },
-  textInput: {
+  input: {
     flex: 1,
-    padding: '12px 20px',
-    borderRadius: 'var(--radius-xl)',
-    border: '1px solid var(--fds-dark-mode-gray-35)',
-    backgroundColor: '#FAFAFA',
-    fontSize: '14px',
-    outline: 'none'
+    fontSize: '15px',
+    padding: '10px',
   },
   sendButton: {
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
+    padding: '10px',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: '50%',
+    width: '45px',
+    height: '45px',
   }
 };
 
