@@ -6,6 +6,7 @@ import '../styles/designTokens.css';
 
 const Settings = ({ session }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('security');
   const { logout } = useAuth();
 
   const handleLogout = () => {
@@ -36,49 +37,108 @@ const Settings = ({ session }) => {
               className="glass-card settings-modal"
             >
               <div style={styles.modalHeader}>
-                <h2 style={styles.modalTitle}>Security Settings</h2>
+                <h2 style={styles.modalTitle}>Settings</h2>
                 <button onClick={() => setIsOpen(false)} style={styles.closeButton}>
                   <X size={24} />
                 </button>
               </div>
 
-              <div style={styles.section}>
-                <label style={styles.label}>Your Username</label>
-                <div style={styles.valueRow}>
-                  <div style={styles.valueBox}>{session?.username || '@username'}</div>
-                  <button onClick={() => copyToClipboard(session?.username)} style={styles.copyButton} title="Copy Username">
-                    <Copy size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <div style={styles.section}>
-                <label style={styles.label}>Your Search Code (Share to connect)</label>
-                <div style={styles.valueRow}>
-                  <div style={styles.valueBox}>{session?.searchCode || '------'}</div>
-                  <button onClick={() => copyToClipboard(session?.searchCode)} style={styles.copyButton} title="Copy Search Code">
-                    <Copy size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <div style={styles.section}>
-                <label style={styles.label}>Your Passphrase (2FA)</label>
-                <div style={styles.valueRow}>
-                  <div style={styles.valueBox}>{session?.passphrase || '•••••••••••••••'}</div>
-                  <button onClick={() => copyToClipboard(session?.passphrase)} style={styles.copyButton} title="Copy Passphrase">
-                    <Copy size={16} />
-                  </button>
-                </div>
-                <p style={styles.warning}>Never share your passphrase with anyone.</p>
-              </div>
-
-              <div style={styles.actions}>
-                <button onClick={handleLogout} className="glass-button" style={styles.logoutButton}>
-                  <LogOut size={16} style={{marginRight: '8px'}} />
-                  Sign Out Completely
+              <div style={styles.tabContainer}>
+                <button 
+                  style={{...styles.tabButton, ...(activeTab === 'security' ? styles.activeTab : {})}} 
+                  onClick={() => setActiveTab('security')}
+                >
+                  Security
+                </button>
+                <button 
+                  style={{...styles.tabButton, ...(activeTab === 'about' ? styles.activeTab : {})}} 
+                  onClick={() => setActiveTab('about')}
+                >
+                  About Ghost Chat
                 </button>
               </div>
+
+              {activeTab === 'security' && (
+                <>
+                  <div style={styles.section}>
+                    <label style={styles.label}>Your Username</label>
+                    <div style={styles.valueRow}>
+                      <div style={styles.valueBox}>{session?.username || '@username'}</div>
+                      <button onClick={() => copyToClipboard(session?.username)} style={styles.copyButton} title="Copy Username">
+                        <Copy size={16} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={styles.section}>
+                    <label style={styles.label}>Your Search Code (Share to connect)</label>
+                    <div style={styles.valueRow}>
+                      <div style={styles.valueBox}>{session?.searchCode || '------'}</div>
+                      <button onClick={() => copyToClipboard(session?.searchCode)} style={styles.copyButton} title="Copy Search Code">
+                        <Copy size={16} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={styles.section}>
+                    <label style={styles.label}>Your Passphrase (2FA)</label>
+                    <div style={styles.valueRow}>
+                      <div style={styles.valueBox}>{session?.passphrase || '•••••••••••••••'}</div>
+                      <button onClick={() => copyToClipboard(session?.passphrase)} style={styles.copyButton} title="Copy Passphrase">
+                        <Copy size={16} />
+                      </button>
+                    </div>
+                    <p style={styles.warning}>Never share your passphrase with anyone.</p>
+                  </div>
+
+                  <div style={styles.actions}>
+                    <button onClick={handleLogout} className="glass-button" style={styles.logoutButton}>
+                      <LogOut size={16} style={{marginRight: '8px'}} />
+                      Sign Out Completely
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {activeTab === 'about' && (
+                <div style={styles.aboutContainer}>
+                  <h3 style={styles.aboutHeader}>MISSION</h3>
+                  <p style={styles.aboutText}>Ghost Chat is anonymous messaging. No tracking. No ads. No data selling. Chat disappears after 24 hours.</p>
+                  
+                  <h3 style={styles.aboutHeader}>HOW IT WORKS</h3>
+                  <p style={styles.aboutText}>Sign up with username and password. Get a unique 6-digit code. Share it with friends. Chat anonymously. All messages delete after 24 hours automatically.</p>
+                  
+                  <h3 style={styles.aboutHeader}>PRIVACY</h3>
+                  <p style={styles.aboutText}>Your data is encrypted end-to-end. Backend stores plain text for 24 hours only. After 24 hours, all messages permanently deleted. Your account persists. Your chat history does not.</p>
+                  
+                  <h3 style={styles.aboutHeader}>FEATURES</h3>
+                  <ul style={styles.aboutList}>
+                    <li>Anonymous by design</li>
+                    <li>6-digit code search (not usernames)</li>
+                    <li>No edit/delete messages</li>
+                    <li>24-hour auto-deletion</li>
+                    <li>End-to-end encrypted</li>
+                    <li>No tracking</li>
+                    <li>No ads</li>
+                    <li>No data selling</li>
+                    <li>No account recovery (intentional)</li>
+                  </ul>
+
+                  <h3 style={styles.aboutHeader}>SECURITY</h3>
+                  <p style={styles.aboutText}>Passwords encrypted AES-256 in transit. Stored encrypted in browser. Plain text backend (24-hour deletion). Messages encrypted on your device. Only you and recipient can see content.</p>
+
+                  <h3 style={styles.aboutHeader}>TERMS</h3>
+                  <p style={styles.aboutText}>Users responsible for account credentials. No email recovery. No password reset. Lost credentials = lost access.</p>
+
+                  <h3 style={styles.aboutHeader}>APP INFO</h3>
+                  <ul style={styles.aboutList}>
+                    <li>Version: 1.0</li>
+                    <li>Created by: Abhishek Singh Shekhawat</li>
+                    <li>Built with: React, Google Sheets, AES-256</li>
+                    <li>Deployed on: Vercel</li>
+                  </ul>
+                </div>
+              )}
             </motion.div>
           </div>
         )}
@@ -195,6 +255,54 @@ const styles = {
     color: 'var(--brand-error)',
     border: '1px solid rgba(255, 69, 58, 0.3)',
     boxShadow: 'none',
+  },
+  tabContainer: {
+    display: 'flex',
+    marginBottom: '20px',
+    borderBottom: '1px solid var(--glass-border)',
+  },
+  tabButton: {
+    flex: 1,
+    padding: '10px 0',
+    background: 'none',
+    border: 'none',
+    borderBottom: '2px solid transparent',
+    color: 'var(--text-secondary)',
+    cursor: 'pointer',
+    fontWeight: '600',
+    fontSize: '14px',
+    transition: 'all 0.2s ease',
+  },
+  activeTab: {
+    color: 'var(--brand-primary)',
+    borderBottomColor: 'var(--brand-primary)',
+  },
+  aboutContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px',
+    color: 'var(--text-primary)',
+  },
+  aboutHeader: {
+    fontSize: '11px',
+    fontWeight: '700',
+    color: 'var(--brand-primary)',
+    letterSpacing: '1px',
+    margin: '0 0 5px 0',
+    textTransform: 'uppercase'
+  },
+  aboutText: {
+    fontSize: '13px',
+    lineHeight: '1.5',
+    margin: 0,
+    color: 'var(--text-secondary)',
+  },
+  aboutList: {
+    margin: 0,
+    paddingLeft: '20px',
+    fontSize: '13px',
+    lineHeight: '1.5',
+    color: 'var(--text-secondary)',
   }
 };
 
