@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Copy } from 'lucide-react';
 import { generateRandomString, hashString } from '../utils/crypto';
 import { apiClient } from '../services/apiClient';
 import '../styles/designTokens.css';
@@ -8,6 +9,7 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passphrase, setPassphrase] = useState('');
+  const [searchCode, setSearchCode] = useState('');
   const [step, setStep] = useState(1);
   const [legalAccepted, setLegalAccepted] = useState(false);
   const [savedPassphrase, setSavedPassphrase] = useState(false);
@@ -30,6 +32,7 @@ const Signup = () => {
       }
 
       setPassphrase(res.passphrase);
+      setSearchCode(res.searchCode);
       setStep(2);
     } catch (err) {
       console.error(err);
@@ -39,9 +42,12 @@ const Signup = () => {
 
   const handleFinalSignup = () => {
     if (!savedPassphrase) return;
-    // Redirect to dashboard (mock)
-    alert('Signup Complete! Proceed to login.');
     window.location.href = '/login';
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    alert('Copied to clipboard!');
   };
 
   return (
@@ -105,13 +111,25 @@ const Signup = () => {
             animate={{ opacity: 1, x: 0 }}
             style={styles.form}
           >
-            <h2 style={styles.title}>Your Passphrase (2FA)</h2>
+            <h2 style={styles.title}>Your Credentials</h2>
             <p style={styles.warningText}>
-              IMPORTANT: Save this passphrase immediately. You will need it to log in, and it cannot be recovered.
+              IMPORTANT: Save these immediately. They cannot be recovered.
             </p>
             
+            <label style={styles.label}>Your Passphrase (2FA)</label>
             <div style={styles.passphraseBox}>
-              {passphrase}
+              <span>{passphrase}</span>
+              <button onClick={() => copyToClipboard(passphrase)} style={styles.copyButton} title="Copy Passphrase">
+                <Copy size={16} />
+              </button>
+            </div>
+
+            <label style={styles.label}>Your Search Code (Share this)</label>
+            <div style={styles.passphraseBox}>
+              <span>{searchCode}</span>
+              <button onClick={() => copyToClipboard(searchCode)} style={styles.copyButton} title="Copy Search Code">
+                <Copy size={16} />
+              </button>
             </div>
 
             <div style={styles.checkboxContainer}>
@@ -122,7 +140,7 @@ const Signup = () => {
                 onChange={(e) => setSavedPassphrase(e.target.checked)}
               />
               <label htmlFor="saved" style={styles.legalText}>
-                I have securely saved my passphrase.
+                I have securely saved my passphrase and search code.
               </label>
             </div>
 
@@ -218,16 +236,34 @@ const styles = {
     fontWeight: '500',
   },
   passphraseBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: 'var(--fds-blue-05)',
-    padding: '15px',
+    padding: '12px 15px',
     borderRadius: 'var(--radius-xs)',
-    textAlign: 'center',
     fontFamily: 'monospace',
-    fontSize: '18px',
+    fontSize: '16px',
     fontWeight: 'bold',
-    letterSpacing: '2px',
+    letterSpacing: '1px',
     color: 'var(--fds-blue-80)',
     border: '1px solid var(--fds-blue-30)',
+    marginBottom: '10px',
+  },
+  copyButton: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'var(--fds-blue-60)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  label: {
+    fontSize: '12px',
+    fontWeight: '600',
+    color: 'var(--fds-dark-mode-gray-50)',
+    marginTop: '5px',
   },
   footer: {
     marginTop: '40px',
