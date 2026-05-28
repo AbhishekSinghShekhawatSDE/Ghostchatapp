@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Copy, Eye, EyeOff } from 'lucide-react';
 import { generateRandomString, hashString } from '../utils/crypto';
 import { apiClient } from '../services/apiClient';
+import Footer from '../components/Footer';
 import '../styles/designTokens.css';
 
 const Signup = () => {
@@ -175,13 +176,7 @@ const Signup = () => {
         )}
       </motion.div>
 
-      <div style={styles.footer}>
-        <a href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>
-        <a href="/terms" target="_blank" rel="noreferrer">Terms of Service</a>
-        <a href="/disclaimer" target="_blank" rel="noreferrer">Disclaimer</a>
-        <a href="/copyright" target="_blank" rel="noreferrer">Copyright</a>
-        <span>&copy; 2026 AnonymousChat</span>
-      </div>
+      <Footer />
     </div>
   );
 };
@@ -286,15 +281,6 @@ const styles = {
     fontWeight: '600',
     color: 'var(--text-secondary)',
     marginTop: '5px',
-  },
-  footer: {
-    marginTop: '40px',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: '15px',
-    fontSize: '12px',
-    color: 'var(--text-tertiary)',
   },
   inputWrapper: {
     position: 'relative',

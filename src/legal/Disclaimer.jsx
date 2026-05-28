@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer';
 import '../styles/designTokens.css';
 
 const Disclaimer = () => {
@@ -12,6 +13,9 @@ const Disclaimer = () => {
           <p><strong>3. No Warranties:</strong> This application is provided without any warranties, express or implied. We do not guarantee 100% uptime or absolute security against advanced cryptographic attacks.</p>
         </div>
       </div>
+      <div style={{ marginTop: 'auto', width: '100%' }}>
+        <Footer />
+      </div>
     </div>
   );
 };
@@ -20,7 +24,8 @@ const styles = {
   container: {
     padding: '40px 20px',
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
     minHeight: '100vh',
     backgroundColor: 'var(--bg-primary)'
   },

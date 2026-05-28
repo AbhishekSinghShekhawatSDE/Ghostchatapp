@@ -105,3 +105,19 @@ body {
 * {
   box-sizing: inherit;
 }
+
+/* Footer Styles */
+.footer-link {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.footer-text {
+  color: var(--text-tertiary);
+}

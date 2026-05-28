@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import Footer from '../components/Footer';
 import '../styles/designTokens.css';
 
 const Login = () => {
@@ -105,13 +106,7 @@ const Login = () => {
         </div>
       </motion.div>
 
-      <div style={styles.footer}>
-        <a href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>
-        <a href="/terms" target="_blank" rel="noreferrer">Terms of Service</a>
-        <a href="/disclaimer" target="_blank" rel="noreferrer">Disclaimer</a>
-        <a href="/copyright" target="_blank" rel="noreferrer">Copyright</a>
-        <span>&copy; 2026 AnonymousChat</span>
-      </div>
+      <Footer />
     </div>
   );
 };
@@ -180,15 +175,6 @@ const styles = {
     backgroundColor: 'rgba(255, 69, 58, 0.1)',
     padding: '10px',
     borderRadius: 'var(--radius-xs)',
-  },
-  footer: {
-    marginTop: '40px',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: '15px',
-    fontSize: '12px',
-    color: 'var(--text-tertiary)',
   },
   inputWrapper: {
     position: 'relative',

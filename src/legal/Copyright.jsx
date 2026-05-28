@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer';
 import '../styles/designTokens.css';
 
 const Copyright = () => {
@@ -11,6 +12,9 @@ const Copyright = () => {
           <p>The code, design, and conceptual architecture of this web application are protected by copyright laws. Unauthorized reproduction or distribution is prohibited.</p>
         </div>
       </div>
+      <div style={{ marginTop: 'auto', width: '100%' }}>
+        <Footer />
+      </div>
     </div>
   );
 };
@@ -19,7 +23,8 @@ const styles = {
   container: {
     padding: '40px 20px',
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
     minHeight: '100vh',
     backgroundColor: 'var(--bg-primary)'
   },
