@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "Anonymous Chat API",
+    "description": "Endpoints for Google Apps Script Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"register\",\n  \"username\": \"@testuser\",\n  \"passwordHash\": \"your_local_hash\"\n}"
+        },
+        "url": {
+          "raw": "{{api_url}}",
+          "host": [
+            "{{api_url}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"login\",\n  \"username\": \"@testuser\",\n  \"passwordHash\": \"your_local_hash\",\n  \"passphraseHash\": \"your_local_hash\"\n}"
+        },
+        "url": {
+          "raw": "{{api_url}}",
+          "host": [
+            "{{api_url}}"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "api_url",
+      "value": "YOUR_DEPLOYED_WEB_APP_URL"
+    }
+  ]
+}

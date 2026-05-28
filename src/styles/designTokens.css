@@ -1,0 +1,48 @@
+:root {
+  --fds-black: #000000;
+  --fds-blue-60: #1877F2;
+  --fds-blue-70: #2851A3;
+  --fds-blue-80: #1D3C78;
+  --fds-button-text: #444950;
+  --fds-comment-background: #F2F3F5;
+  --fds-dark-mode-gray-100: #1C1C1C;
+  --fds-dark-mode-gray-90: #282828;
+  --fds-dark-mode-gray-80: #373737;
+  --fds-dark-mode-gray-70: #4A4A4A;
+  --fds-dark-mode-gray-50: #828282;
+  --fds-dark-mode-gray-35: #CCCCCC;
+  --fds-blue-05: #ECF3FF;
+  --fds-blue-30: #AAC9FF;
+  --fds-blue-40: #77A7FF;
+  
+  --shadow-1: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  --shadow-2: 0 8px 20px 0 var(--shadow-2), 0 2px 4px 0 var(--shadow-1);
+  --shadow-3: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  --shadow-4: 0 12px 28px 0 var(--shadow-2), 0 2px 4px 0 var(--shadow-1);
+  --shadow-5: 0px 0px 16px rgba(0, 0, 0, 0.3);
+  
+  --radius-xl: 24px;
+  --radius-lg: 20px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --radius-xs: 6px;
+  --radius-xxs: 4px;
+
+  --bg-primary: #F5F6F7;
+  --bg-surface: #ffffff;
+  --text-primary: var(--fds-black);
+  --text-secondary: var(--fds-dark-mode-gray-50);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
