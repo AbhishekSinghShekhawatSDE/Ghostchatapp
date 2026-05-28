@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy } from 'lucide-react';
+import { Copy, Eye, EyeOff } from 'lucide-react';
 import { generateRandomString, hashString } from '../utils/crypto';
 import { apiClient } from '../services/apiClient';
 import '../styles/designTokens.css';
@@ -13,6 +13,7 @@ const Signup = () => {
   const [step, setStep] = useState(1);
   const [legalAccepted, setLegalAccepted] = useState(false);
   const [savedPassphrase, setSavedPassphrase] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInitialSubmit = async (e) => {
     e.preventDefault();
@@ -81,14 +82,25 @@ const Signup = () => {
               required
             />
             
-            <input 
-              type="password" 
-              placeholder="Create a strong password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="glass-input"
-              required
-            />
+            <div style={styles.inputWrapper}>
+              <input 
+                type={showPassword ? "text" : "password"}
+                placeholder="Create a strong password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="glass-input"
+                style={styles.inputWithIcon}
+                required
+              />
+              <button 
+                type="button" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={styles.eyeIcon}
+                title={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
 
             <div style={styles.checkboxContainer}>
               <input 
@@ -283,6 +295,30 @@ const styles = {
     gap: '15px',
     fontSize: '12px',
     color: 'var(--text-tertiary)',
+  },
+  inputWrapper: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+  },
+  inputWithIcon: {
+    width: '100%',
+    paddingRight: '40px',
+    boxSizing: 'border-box',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: '12px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'var(--text-secondary)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    transition: 'color 0.2s',
   }
 };
 

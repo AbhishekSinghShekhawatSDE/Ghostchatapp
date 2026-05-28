@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/designTokens.css';
 
@@ -8,6 +9,8 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passphrase, setPassphrase] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassphrase, setShowPassphrase] = useState(false);
   const { login, loading, error } = useAuth();
   const navigate = useNavigate();
 
@@ -45,23 +48,45 @@ const Login = () => {
             required
           />
           
-          <input 
-            type="password" 
-            placeholder="Password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="glass-input"
-            required
-          />
+          <div style={styles.inputWrapper}>
+            <input 
+              type={showPassword ? "text" : "password"} 
+              placeholder="Password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="glass-input"
+              style={styles.inputWithIcon}
+              required
+            />
+            <button 
+              type="button" 
+              onClick={() => setShowPassword(!showPassword)}
+              style={styles.eyeIcon}
+              title={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
 
-          <input 
-            type="password" 
-            placeholder="Passphrase (2FA)" 
-            value={passphrase}
-            onChange={(e) => setPassphrase(e.target.value)}
-            className="glass-input"
-            required
-          />
+          <div style={styles.inputWrapper}>
+            <input 
+              type={showPassphrase ? "text" : "password"} 
+              placeholder="Passphrase (2FA)" 
+              value={passphrase}
+              onChange={(e) => setPassphrase(e.target.value)}
+              className="glass-input"
+              style={styles.inputWithIcon}
+              required
+            />
+            <button 
+              type="button" 
+              onClick={() => setShowPassphrase(!showPassphrase)}
+              style={styles.eyeIcon}
+              title={showPassphrase ? "Hide passphrase" : "Show passphrase"}
+            >
+              {showPassphrase ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
 
           {error && <p style={styles.errorText}>{error}</p>}
 
@@ -164,6 +189,30 @@ const styles = {
     gap: '15px',
     fontSize: '12px',
     color: 'var(--text-tertiary)',
+  },
+  inputWrapper: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+  },
+  inputWithIcon: {
+    width: '100%',
+    paddingRight: '40px',
+    boxSizing: 'border-box',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: '12px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'var(--text-secondary)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    transition: 'color 0.2s',
   }
 };
 
