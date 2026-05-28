@@ -7,14 +7,5 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     mode === 'analyze' && visualizer({ open: true, filename: 'stats.html' })
-  ],
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
-        }
-      }
-    }
-  }
+  ]
 }))
