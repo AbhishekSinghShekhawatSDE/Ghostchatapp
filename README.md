@@ -40,3 +40,24 @@ A complete, secure, 2-person anonymous web chat application with 24-hour auto-de
 3. Use the **Login** screen with your username, password, and passphrase.
 4. On the **Dashboard**, your 6-digit code is visible in the Settings (gear icon).
 5. Share your 6-digit code with a friend, or enter their code in the search bar to start an anonymous chat!
+
+## Live Deployment
+**Frontend URL:** [Deployed on Vercel] *(Insert your Vercel URL here)*
+**Backend API:** Google Apps Script Web App
+
+## Troubleshooting
+**Q: I get a CORS error when trying to log in.**
+A: Ensure your Google Apps Script is deployed as "Execute as: Me" and "Who has access: Anyone". If it's restricted, the browser will block the cross-origin request.
+
+**Q: Messages aren't loading.**
+A: Check that your `VITE_API_URL` exactly matches the Web App URL in your `.env` file and that you restarted your frontend server after adding it.
+
+**Q: Auto-deletion isn't working.**
+A: Ensure you have set up the Time-driven trigger in the Google Apps Script dashboard (Extensions > Apps Script > Triggers icon) for the `deleteOldMessages` function.
+
+## FAQ
+**How secure is this app?**
+Passwords are mathematically hashed via SHA-256 both locally and on the server. Passphrases are generated securely via cryptographic endpoints and double-hashed. 
+
+**Can admins read my messages?**
+While messages are stored in Google Sheets for 24 hours to facilitate asynchronous communication, they are completely wiped and moved to a metadata-only audit log exactly 24 hours after being sent. Do not share personally identifiable information.

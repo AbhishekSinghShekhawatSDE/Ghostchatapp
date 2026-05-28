@@ -6,6 +6,7 @@ import SearchBar from '../components/SearchBar';
 import Inbox from '../components/Inbox';
 import Chat from '../components/Chat';
 import Settings from '../components/Settings';
+import OnboardingModal from '../components/OnboardingModal';
 import '../styles/designTokens.css';
 
 const Dashboard = () => {
@@ -33,6 +34,7 @@ const Dashboard = () => {
 
   return (
     <div style={styles.layout}>
+      <OnboardingModal />
       {/* Top Navigation Bar */}
       <header style={styles.header}>
         <div style={styles.headerLeft}>

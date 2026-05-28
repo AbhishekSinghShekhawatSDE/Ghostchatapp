@@ -5,26 +5,34 @@ const Inbox = ({ conversations, activeChat, onSelectChat }) => {
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>Messages</h2>
-      <div style={styles.list}>
-        {conversations.map(chat => (
-          <div 
-            key={chat.id} 
-            onClick={() => onSelectChat(chat)}
-            style={{
-              ...styles.chatItem,
-              backgroundColor: activeChat?.id === chat.id ? 'var(--fds-blue-05)' : 'transparent'
-            }}
-          >
-            <div style={styles.avatar}>
-              {chat.code.substring(0,2)}
+      {conversations.length === 0 ? (
+        <div style={styles.emptyState}>
+          <div style={styles.emptyIcon}>👻</div>
+          <p>No conversations yet.</p>
+          <span>Use the search bar to find someone!</span>
+        </div>
+      ) : (
+        <div style={styles.list}>
+          {conversations.map(chat => (
+            <div 
+              key={chat.code} 
+              onClick={() => onSelectChat(chat)}
+              style={{
+                ...styles.chatItem,
+                backgroundColor: activeChat?.code === chat.code ? 'var(--fds-blue-05)' : 'transparent'
+              }}
+            >
+              <div style={styles.avatar}>
+                {chat.code.substring(0,2)}
+              </div>
+              <div style={styles.chatInfo}>
+                <div style={styles.chatName}>User #{chat.code}</div>
+                <div style={styles.lastMessage}>{chat.lastMessage || 'New conversation'}</div>
+              </div>
             </div>
-            <div style={styles.chatInfo}>
-              <div style={styles.chatName}>User #{chat.code}</div>
-              <div style={styles.lastMessage}>{chat.lastMessage || 'New conversation'}</div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -81,9 +89,22 @@ const styles = {
   lastMessage: {
     fontSize: '13px',
     color: 'var(--fds-dark-mode-gray-50)',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    marginTop: '2px',
+  },
+  emptyState: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '40px 20px',
+    textAlign: 'center',
+    color: 'var(--fds-dark-mode-gray-50)',
+    fontSize: '14px',
+    opacity: 0.7,
+  },
+  emptyIcon: {
+    fontSize: '40px',
+    marginBottom: '10px',
   }
 };
 

@@ -13,14 +13,13 @@ const Chat = ({ activeChat, messages, onSendMessage }) => {
     }
   };
 
-  if (!activeChat) {
-    return (
-      <div style={styles.emptyContainer}>
-        <div style={styles.emptyText}>Select a conversation or search for a user to start chatting.</div>
-        <div style={styles.disclaimerText}>All messages are deleted after 24 hours.</div>
-      </div>
-    );
-  }
+  if (!activeChat) return (
+    <div style={styles.emptyContainer}>
+      <div style={styles.emptyIcon}>💬</div>
+      <h3 style={styles.emptyTitle}>Your Messages</h3>
+      <p style={styles.emptyText}>Select a conversation from the sidebar or start a new one.</p>
+    </div>
+  );
 
   return (
     <div style={styles.container}>
@@ -78,17 +77,23 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'var(--bg-surface)'
+    backgroundColor: 'var(--bg-surface)',
+    color: 'var(--fds-dark-mode-gray-50)',
+  },
+  emptyIcon: {
+    fontSize: '60px',
+    marginBottom: '20px',
+    opacity: 0.8
+  },
+  emptyTitle: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+    color: 'var(--text-primary)'
   },
   emptyText: {
-    color: 'var(--fds-dark-mode-gray-50)',
-    fontSize: '16px',
-    marginBottom: '10px'
-  },
-  disclaimerText: {
-    color: '#E0245E',
-    fontSize: '12px',
-    fontWeight: '500'
+    fontSize: '15px',
+    opacity: 0.8
   },
   container: {
     flex: 1,
