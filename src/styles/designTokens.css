@@ -199,10 +199,11 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100%;
   overflow: hidden;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
-  gap: 20px;
+  gap: 10px;
   background-color: var(--bg-primary);
 }
 
@@ -211,57 +212,73 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
-  min-height: 70px;
-  flex-shrink: 0;
-  border: none;
+  padding: 12px 16px;
+  height: auto;
+  width: 100%;
+  box-sizing: border-box;
   gap: 10px;
 }
 
 .dashboard-header-left {
-  flex: 1;
+  flex-shrink: 0;
+}
+
+.dashboard-logo {
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0;
+  background: linear-gradient(135deg, #fff, #AEAEB2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .dashboard-header-center {
   flex: 1 1 100%;
-  order: 3;
+  margin: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
-  width: 100%;
+  order: 3;
 }
 
 .dashboard-header-right {
-  flex: 1;
+  flex-shrink: 0;
   display: flex;
   justify-content: flex-end;
+  cursor: pointer;
+  order: 2;
 }
 
 .dashboard-main {
   display: flex;
-  flex: 1;
-  gap: 20px;
-  overflow: hidden;
   flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  width: 100%;
+  gap: 10px;
 }
 
 .dashboard-sidebar {
   width: 100%;
-  flex: 1;
+  height: 50%;
+  overflow-y: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   border: none;
-  overflow: hidden;
-  min-height: 0;
 }
 
 .dashboard-chat-area {
   width: 100%;
-  flex: 1.5;
+  height: 50%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   border: none;
-  overflow: hidden;
-  min-height: 0;
 }
 
 .search-form {
@@ -284,23 +301,33 @@ body {
 
 /* Tablet (iPad) */
 @media (min-width: 768px) {
+  .dashboard-layout {
+    padding: 20px;
+    gap: 20px;
+  }
   .dashboard-main {
     flex-direction: row;
   }
   .dashboard-sidebar {
-    width: 320px;
-    flex: none;
+    width: 30%;
+    height: 100%;
+    border-bottom: none;
   }
   .dashboard-chat-area {
-    flex: 1;
+    width: 70%;
+    height: 100%;
+  }
+  .dashboard-logo {
+    font-size: 22px;
   }
   .dashboard-header {
+    padding: 12px 20px;
     flex-wrap: nowrap;
-    padding: 0 20px;
   }
   .dashboard-header-center {
     flex: 2;
     order: 2;
+    margin: 0 12px;
     width: auto;
   }
   .dashboard-header-right {

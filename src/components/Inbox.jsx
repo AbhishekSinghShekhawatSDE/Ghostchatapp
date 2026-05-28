@@ -2,15 +2,33 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import '../styles/designTokens.css';
 
-const Inbox = ({ conversations, activeChat, onSelectChat }) => {
+const Inbox = ({ conversations, activeChat, onSelectChat, session }) => {
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>Messages</h2>
       {conversations.length === 0 ? (
         <div style={styles.emptyState}>
           <div style={styles.emptyIcon}>👻</div>
-          <p>No conversations yet.</p>
-          <span>Use the search bar to find someone!</span>
+          <p style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '5px', fontSize: '16px' }}>Ready to chat?</p>
+          <span style={{ marginBottom: '20px', lineHeight: '1.4' }}>Ask your partner for their 6-digit code to start messaging.</span>
+          
+          <div style={styles.codeBox}>
+            <span style={styles.codeLabel}>Your Search Code:</span>
+            <div style={styles.codeFlex}>
+              <span style={styles.codeText}>{session?.searchCode || '------'}</span>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigator.clipboard.writeText(session?.searchCode);
+                  alert('Code copied to clipboard!');
+                }}
+                style={styles.copyBtn}
+                title="Copy Code"
+              >
+                📋
+              </button>
+            </div>
+          </div>
         </div>
       ) : (
         <div style={styles.list}>
@@ -113,6 +131,43 @@ const styles = {
   emptyIcon: {
     fontSize: '40px',
     marginBottom: '10px',
+  },
+  codeBox: {
+    padding: '15px', 
+    backgroundColor: 'rgba(0,0,0,0.3)', 
+    borderRadius: '8px', 
+    border: '1px solid var(--glass-border)', 
+    width: '100%', 
+    maxWidth: '250px',
+    textAlign: 'left'
+  },
+  codeLabel: {
+    fontSize: '12px', 
+    color: 'var(--text-secondary)', 
+    display: 'block', 
+    marginBottom: '8px'
+  },
+  codeFlex: {
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    alignItems: 'center'
+  },
+  codeText: {
+    fontFamily: 'monospace', 
+    fontSize: '18px', 
+    fontWeight: 'bold', 
+    color: 'var(--brand-primary)', 
+    letterSpacing: '2px'
+  },
+  copyBtn: {
+    background: 'rgba(255,255,255,0.1)', 
+    border: 'none', 
+    cursor: 'pointer', 
+    color: 'var(--text-primary)', 
+    padding: '6px 10px',
+    borderRadius: '4px',
+    fontSize: '14px',
+    transition: 'background 0.2s'
   }
 };
 

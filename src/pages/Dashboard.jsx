@@ -44,7 +44,7 @@ const Dashboard = () => {
         className="glass-card dashboard-header"
       >
         <div className="dashboard-header-left">
-          <h1 style={styles.logo}>Ghost Chat</h1>
+          <h1 className="dashboard-logo">Ghost Chat</h1>
         </div>
         
         <div className="dashboard-header-center">
@@ -68,6 +68,7 @@ const Dashboard = () => {
             conversations={conversations} 
             activeChat={activeChat} 
             onSelectChat={setActiveChat} 
+            session={session}
           />
         </div>
         
@@ -88,16 +89,6 @@ const Dashboard = () => {
 };
 
 const styles = {
-  logo: {
-    fontSize: '22px',
-    fontFamily: 'Inter, sans-serif',
-    fontWeight: '800',
-    letterSpacing: '-1px',
-    margin: 0,
-    background: 'linear-gradient(135deg, #fff, #AEAEB2)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-  },
   dashboardFooter: {
     flexShrink: 0,
     transform: 'scale(0.85)',
