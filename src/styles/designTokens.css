@@ -297,9 +297,9 @@ body {
   overflow-y: auto;
 }
 
-/* MEDIA QUERIES */
+/* MEDIA QUERIES & BREAKPOINTS */
 
-/* Tablet (iPad) */
+/* Tablet Portrait (iPad) */
 @media (min-width: 768px) {
   .dashboard-layout {
     padding: 20px;
@@ -309,12 +309,15 @@ body {
     flex-direction: row;
   }
   .dashboard-sidebar {
-    width: 30%;
+    width: auto;
+    flex: 0 0 35%; /* Fixed at 35% */
     height: 100%;
     border-bottom: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
   }
   .dashboard-chat-area {
-    width: 70%;
+    width: auto;
+    flex: 1; /* Takes the remaining 65% dynamically */
     height: 100%;
   }
   .dashboard-logo {
@@ -346,12 +349,40 @@ body {
   .search-form {
     max-width: 400px;
   }
+  .hide-on-mobile {
+    display: flex !important; /* Ensure visibility on tablet+ */
+  }
 }
 
-/* Large Desktop */
-@media (min-width: 1920px) {
+/* Tablet Landscape / Standard Desktop */
+@media (min-width: 1024px) {
   .dashboard-sidebar {
-    width: 400px;
+    flex: 0 0 30%;
+  }
+}
+
+/* Large Desktop (WhatsApp Web Centered Style) */
+@media (min-width: 1440px) {
+  .dashboard-layout {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  .dashboard-sidebar {
+    flex: 0 0 400px; /* Locked comfortable sidebar width */
+  }
+}
+
+/* Ultra-wide Displays (2K / 4K / 8K) */
+@media (min-width: 2560px) {
+  .dashboard-layout {
+    padding: 40px;
+  }
+  .dashboard-logo {
+    font-size: 26px;
+  }
+  .dashboard-header {
+    padding: 20px 30px;
   }
 }
 
@@ -363,6 +394,7 @@ body {
   }
 }
 
+/* Mobile Visibility Utilities */
 @media (max-width: 767px) {
   .hide-on-mobile {
     display: none !important;
