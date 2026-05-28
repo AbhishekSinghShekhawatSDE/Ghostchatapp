@@ -14,7 +14,7 @@ const SearchBar = ({ onSearch, loading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={styles.form}>
+    <form onSubmit={handleSubmit} className="search-form">
       <input 
         type="text" 
         placeholder="Enter 6-digit Search Code" 
@@ -36,13 +36,6 @@ const SearchBar = ({ onSearch, loading }) => {
 };
 
 const styles = {
-  form: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    width: '100%',
-    maxWidth: '400px',
-  },
   input: {
     flex: 1,
     fontFamily: 'monospace',

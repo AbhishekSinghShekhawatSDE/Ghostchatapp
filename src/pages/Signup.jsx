@@ -59,15 +59,14 @@ const Signup = () => {
   };
 
   return (
-    <div style={{...styles.container, background: 'transparent'}}>
+    <div className="auth-container" style={{background: 'transparent'}}>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="glass-card"
-        style={styles.card}
+        className="glass-card auth-card"
       >
-        <h1 style={styles.logo}>Ghost Chat</h1>
+        <h1 className="auth-logo">Ghost Chat</h1>
         
         {step === 1 ? (
           <motion.form 
@@ -75,7 +74,7 @@ const Signup = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             onSubmit={handleInitialSubmit} 
-            style={styles.form}
+            className="auth-form"
           >
             <h2 style={styles.title}>Create Secure Identity</h2>
             <p style={styles.subtitle}>No email. No phone number. Complete privacy.</p>
@@ -147,7 +146,7 @@ const Signup = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ type: "spring", stiffness: 100 }}
-            style={styles.form}
+            className="auth-form"
           >
             <h2 style={styles.title}>Your Credentials</h2>
             <p style={styles.warningText}>
@@ -200,72 +199,41 @@ const Signup = () => {
 };
 
 const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    padding: '20px',
-  },
-  card: {
-    padding: '40px',
-    width: '100%',
-    maxWidth: '400px',
-  },
-  logo: {
-    textAlign: 'center',
-    fontFamily: 'Inter, sans-serif',
-    fontWeight: '800',
-    letterSpacing: '-1px',
-    fontSize: 'clamp(24px, 8vw, 36px)',
-    lineHeight: '1.2',
-    paddingBottom: '2px',
-    margin: '0 0 20px 0',
-    background: 'linear-gradient(135deg, #fff, #AEAEB2)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-  },
   title: {
-    fontSize: '20px',
+    fontSize: '14px',
     color: 'var(--text-primary)',
     textAlign: 'center',
     fontWeight: '600',
-    marginBottom: '5px',
+    marginBottom: '8px',
     marginTop: 0,
   },
   subtitle: {
-    fontSize: '14px',
+    fontSize: '12px',
     color: 'var(--text-secondary)',
     textAlign: 'center',
-    marginBottom: '15px',
+    marginBottom: '12px',
     marginTop: 0,
   },
   checkboxContainer: {
     display: 'flex',
     alignItems: 'flex-start',
-    gap: '10px',
-    marginTop: '10px',
+    gap: '8px',
+    marginTop: '4px',
   },
   legalText: {
-    fontSize: '12px',
+    fontSize: '11px',
     color: 'var(--text-secondary)',
-    lineHeight: '1.4',
+    lineHeight: '1.2',
   },
   link: {
     color: 'var(--brand-primary)',
     textDecoration: 'none',
   },
   warningText: {
-    fontSize: '12px',
+    fontSize: '11px',
     color: 'var(--brand-warning)',
     backgroundColor: 'rgba(255, 159, 10, 0.1)',
-    padding: '10px',
+    padding: '8px',
     borderRadius: 'var(--radius-xs)',
     textAlign: 'center',
     fontWeight: '500',
@@ -275,15 +243,15 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.4)',
-    padding: '12px 15px',
+    padding: '6px 10px',
     borderRadius: 'var(--radius-xs)',
     fontFamily: 'monospace',
-    fontSize: '16px',
+    fontSize: '12px',
     fontWeight: 'bold',
     letterSpacing: '1px',
     color: 'var(--brand-primary)',
     border: '1px solid var(--glass-border)',
-    marginBottom: '10px',
+    marginBottom: '4px',
   },
   copyButton: {
     background: 'none',
@@ -295,10 +263,10 @@ const styles = {
     justifyContent: 'center',
   },
   label: {
-    fontSize: '12px',
+    fontSize: '11px',
     fontWeight: '600',
     color: 'var(--text-secondary)',
-    marginTop: '5px',
+    marginTop: '2px',
   },
   inputWrapper: {
     position: 'relative',

@@ -33,8 +33,7 @@ const Settings = ({ session }) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="glass-card"
-              style={styles.modalContent}
+              className="glass-card settings-modal"
             >
               <div style={styles.modalHeader}>
                 <h2 style={styles.modalTitle}>Security Settings</h2>
@@ -115,11 +114,6 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
-  },
-  modalContent: {
-    padding: '30px',
-    width: '90%',
-    maxWidth: '400px',
   },
   modalHeader: {
     display: 'flex',

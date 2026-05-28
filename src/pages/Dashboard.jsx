@@ -35,24 +35,23 @@ const Dashboard = () => {
   if (!session) return null;
 
   return (
-    <div style={styles.layout}>
+    <div className="dashboard-layout">
       <OnboardingModal />
       {/* Top Navigation Bar */}
       <motion.header 
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="glass-card"
-        style={styles.header}
+        className="glass-card dashboard-header"
       >
-        <div style={styles.headerLeft}>
+        <div className="dashboard-header-left">
           <h1 style={styles.logo}>Ghost Chat</h1>
         </div>
         
-        <div style={styles.headerCenter}>
+        <div className="dashboard-header-center">
           <SearchBar onSearch={handleSearch} loading={searchLoading} />
         </div>
         
-        <div style={styles.headerRight}>
+        <div className="dashboard-header-right">
           <Settings session={session} />
         </div>
       </motion.header>
@@ -62,9 +61,9 @@ const Dashboard = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.1 }}
-        style={styles.mainContent}
+        className="dashboard-main"
       >
-        <div className="glass-card" style={styles.sidebar}>
+        <div className="glass-card dashboard-sidebar">
           <Inbox 
             conversations={conversations} 
             activeChat={activeChat} 
@@ -72,11 +71,12 @@ const Dashboard = () => {
           />
         </div>
         
-        <div className="glass-card" style={styles.chatArea}>
+        <div className="glass-card dashboard-chat-area">
           <Chat 
             activeChat={activeChat} 
             messages={messages} 
             onSendMessage={sendMessage} 
+            session={session}
           />
         </div>
       </motion.main>
@@ -88,38 +88,6 @@ const Dashboard = () => {
 };
 
 const styles = {
-  layout: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
-    overflow: 'hidden',
-    padding: '20px',
-    boxSizing: 'border-box',
-    gap: '20px',
-    backgroundColor: 'var(--bg-primary)'
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '0 20px',
-    height: '70px',
-    flexShrink: 0,
-    border: 'none',
-  },
-  headerLeft: {
-    flex: 1,
-  },
-  headerCenter: {
-    flex: 2,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  headerRight: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
   logo: {
     fontSize: '22px',
     fontFamily: 'Inter, sans-serif',
@@ -129,26 +97,6 @@ const styles = {
     background: 'linear-gradient(135deg, #fff, #AEAEB2)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
-  },
-  mainContent: {
-    display: 'flex',
-    flex: 1,
-    gap: '20px',
-    overflow: 'hidden',
-  },
-  sidebar: {
-    width: '320px',
-    display: 'flex',
-    flexDirection: 'column',
-    border: 'none',
-    overflow: 'hidden',
-  },
-  chatArea: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    border: 'none',
-    overflow: 'hidden',
   },
   dashboardFooter: {
     flexShrink: 0,

@@ -36,19 +36,19 @@ const Footer = () => {
 
 const styles = {
   footer: {
-    marginTop: '40px',
+    marginTop: '8px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: '15px',
-    fontSize: '12px',
-    paddingBottom: '20px',
+    gap: '8px',
+    fontSize: '10px',
+    padding: '8px 0',
   },
   footerLinks: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: '15px',
+    gap: '2px',
   },
   footerCredits: {
     display: 'flex',

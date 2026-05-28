@@ -26,17 +26,16 @@ const Login = () => {
   };
 
   return (
-    <div style={{...styles.container, background: 'transparent'}}>
+    <div className="auth-container" style={{background: 'transparent'}}>
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="glass-card"
-        style={styles.card}
+        className="glass-card auth-card"
       >
-        <h1 style={styles.logo}>Ghost Chat</h1>
+        <h1 className="auth-logo">Ghost Chat</h1>
         
-        <form onSubmit={handleLogin} style={styles.form}>
+        <form onSubmit={handleLogin} className="auth-form">
           <h2 style={styles.title}>Secure Login</h2>
           <p style={styles.subtitle}>Enter your credentials to access your secure session.</p>
           
@@ -121,54 +120,23 @@ const Login = () => {
 };
 
 const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    padding: '20px',
-  },
-  card: {
-    padding: '40px',
-    width: '100%',
-    maxWidth: '400px',
-  },
-  logo: {
-    textAlign: 'center',
-    fontFamily: 'Inter, sans-serif',
-    fontWeight: '800',
-    letterSpacing: '-1px',
-    fontSize: 'clamp(24px, 8vw, 36px)',
-    lineHeight: '1.2',
-    paddingBottom: '2px',
-    margin: '0 0 20px 0',
-    background: 'linear-gradient(135deg, #fff, #AEAEB2)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-  },
   title: {
-    fontSize: '20px',
+    fontSize: '14px',
     color: 'var(--text-primary)',
     textAlign: 'center',
     fontWeight: '600',
-    marginBottom: '5px',
+    marginBottom: '8px',
     marginTop: 0,
   },
   subtitle: {
-    fontSize: '14px',
+    fontSize: '12px',
     color: 'var(--text-secondary)',
     textAlign: 'center',
-    marginBottom: '15px',
+    marginBottom: '12px',
     marginTop: 0,
   },
   links: {
-    marginTop: '25px',
+    marginTop: '15px',
     textAlign: 'center',
   },
   link: {
