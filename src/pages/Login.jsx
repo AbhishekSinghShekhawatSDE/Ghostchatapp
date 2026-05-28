@@ -110,6 +110,9 @@ const styles = {
     fontFamily: 'Inter, sans-serif',
     fontWeight: '800',
     letterSpacing: '-1px',
+    fontSize: 'clamp(24px, 8vw, 36px)',
+    lineHeight: '1.2',
+    paddingBottom: '2px',
     margin: '0 0 20px 0',
     background: 'linear-gradient(135deg, #fff, #AEAEB2)',
     WebkitBackgroundClip: 'text',
@@ -156,6 +159,8 @@ const styles = {
   footer: {
     marginTop: '40px',
     display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     gap: '15px',
     fontSize: '12px',
     color: 'var(--text-tertiary)',
