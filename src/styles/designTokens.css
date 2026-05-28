@@ -362,3 +362,12 @@ body {
     gap: 10px;
   }
 }
+
+@media (max-width: 767px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+  .full-height-mobile {
+    height: 100% !important;
+  }
+}

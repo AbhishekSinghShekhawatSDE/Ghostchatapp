@@ -29,10 +29,10 @@ const Settings = ({ session }) => {
         {isOpen && (
           <div style={styles.modalOverlay}>
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
               className="glass-card settings-modal"
             >
               <div style={styles.modalHeader}>

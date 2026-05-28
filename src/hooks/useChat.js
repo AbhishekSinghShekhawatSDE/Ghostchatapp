@@ -11,7 +11,11 @@ export const useChat = (session) => {
   useEffect(() => {
     try {
       const savedMsgs = localStorage.getItem('anon_chat_messages');
-      if (savedMsgs) setMessages(JSON.parse(decodeURIComponent(atob(savedMsgs))));
+      if (savedMsgs) {
+        const parsedMsgs = JSON.parse(decodeURIComponent(atob(savedMsgs)));
+        const validMsgs = parsedMsgs.filter(m => new Date(m.timestamp).getTime() > Date.now() - 24 * 60 * 60 * 1000);
+        setMessages(validMsgs);
+      }
       const savedConvos = localStorage.getItem('anon_chat_convos');
       if (savedConvos) setConversations(JSON.parse(decodeURIComponent(atob(savedConvos))));
     } catch (e) { console.error('Failed to decode local storage', e); }
@@ -47,9 +51,16 @@ export const useChat = (session) => {
         });
 
         if (isMounted && res.success && res.messages.length > 0) {
-          // Update sync time
-          lastSyncTime.current = Math.max(...res.messages.map(m => new Date(m.timestamp).getTime()));
-          setMessages(prev => [...prev, ...res.messages]);
+          const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
+          const validMessages = res.messages.filter(m => new Date(m.timestamp).getTime() > twentyFourHoursAgo);
+          
+          if (validMessages.length > 0) {
+            lastSyncTime.current = Math.max(...validMessages.map(m => new Date(m.timestamp).getTime()));
+            setMessages(prev => {
+              const all = [...prev, ...validMessages];
+              return all.filter(m => new Date(m.timestamp).getTime() > twentyFourHoursAgo);
+            });
+          }
         }
       } catch (err) {
         console.error("Error polling messages", err);

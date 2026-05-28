@@ -25,9 +25,7 @@ const Chat = ({ activeChat, messages, onSendMessage, session }) => {
 
   if (!activeChat) return (
     <div style={styles.emptyContainer}>
-      <div style={styles.emptyIcon}>💬</div>
-      <h3 style={styles.emptyTitle}>Your Messages</h3>
-      <p style={styles.emptyText}>Select a conversation from the sidebar or start a new one.</p>
+      <div style={styles.emptyIcon}>👻</div>
     </div>
   );
 

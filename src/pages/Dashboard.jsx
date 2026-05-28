@@ -63,7 +63,7 @@ const Dashboard = () => {
         transition={{ delay: 0.1 }}
         className="dashboard-main"
       >
-        <div className="glass-card dashboard-sidebar">
+        <div className={`glass-card dashboard-sidebar ${!activeChat ? 'full-height-mobile' : ''}`}>
           <Inbox 
             conversations={conversations} 
             activeChat={activeChat} 
@@ -72,7 +72,7 @@ const Dashboard = () => {
           />
         </div>
         
-        <div className="glass-card dashboard-chat-area">
+        <div className={`glass-card dashboard-chat-area ${!activeChat ? 'hide-on-mobile' : ''}`}>
           <Chat 
             activeChat={activeChat} 
             messages={messages} 
