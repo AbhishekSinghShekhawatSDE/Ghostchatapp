@@ -34,14 +34,14 @@ const Chat = ({ activeChat, messages, onSendMessage, session }) => {
       <div style={styles.header}>
         <div style={styles.headerUserInfo}>
           <div style={styles.pulseIndicator}></div>
-          <h3 style={styles.headerTitle}>User #{activeChat.code}</h3>
+          <h3 style={styles.headerTitle}>{activeChat.username ? `@${activeChat.username}` : `User #${activeChat.code}`}</h3>
         </div>
       </div>
       
       <div style={styles.messageList}>
         <AnimatePresence>
           {messages.map((msg, index) => {
-            const isMe = msg.senderCode === session.searchCode;
+            const isMe = msg.isOwn || msg.sender === session.searchCode;
             return (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8, y: 10 }}

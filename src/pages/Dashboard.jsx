@@ -9,6 +9,7 @@ import Chat from '../components/Chat';
 import Settings from '../components/Settings';
 import OnboardingModal from '../components/OnboardingModal';
 import SuggestionBox from '../components/SuggestionBox';
+import { generateDynamicBots } from '../utils/bots';
 import '../styles/designTokens.css';
 
 const Dashboard = () => {
@@ -29,11 +30,16 @@ const Dashboard = () => {
     deleteConversation
   } = useChat(session);
 
+  const [dynamicBots, setDynamicBots] = useState([]);
+
   useEffect(() => {
     if (!session) {
       navigate('/login');
       return;
     }
+    
+    // Generate dynamic bots once per session
+    setDynamicBots(generateDynamicBots(session.username));
 
     const refCode = sessionStorage.getItem('referral_code');
     if (refCode) {
@@ -63,6 +69,7 @@ const Dashboard = () => {
       <SuggestionBox 
         visible={conversations.length === 0} 
         onSelectBot={handleSelectBot} 
+        bots={dynamicBots}
       />
       {/* Top Navigation Bar */}
       <motion.header 

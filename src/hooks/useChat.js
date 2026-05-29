@@ -185,6 +185,11 @@ export const useChat = (session) => {
   };
 
   const searchUser = async (code) => {
+    if (code === session?.searchCode) {
+      alert("You cannot chat with yourself. Please enter another user's code.");
+      return null;
+    }
+
     setLoading(true);
     try {
       const res = await apiClient.post('search', { searchCode: code });

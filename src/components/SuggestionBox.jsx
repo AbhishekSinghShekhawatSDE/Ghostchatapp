@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, UserPlus } from 'lucide-react';
-import { bots } from '../utils/bots';
 import '../styles/designTokens.css';
 
-const SuggestionBox = ({ onSelectBot, visible }) => {
+const SuggestionBox = ({ onSelectBot, visible, bots = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!visible && !isOpen) return null;

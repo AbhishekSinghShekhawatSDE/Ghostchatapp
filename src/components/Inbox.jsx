@@ -53,7 +53,7 @@ const Inbox = ({ conversations, activeChat, onSelectChat, onDeleteChat, session 
                   {chat.code.substring(0,2)}
                 </div>
                 <div style={styles.chatInfo}>
-                  <div style={styles.chatName}>User #{chat.code}</div>
+                  <div style={styles.chatName}>{chat.username ? `@${chat.username}` : `User #${chat.code}`}</div>
                   <div style={styles.lastMessage}>
                     {isExpired ? (
                       <span style={{color: 'var(--brand-warning)'}}>Chat ended. Start new conversation?</span>
