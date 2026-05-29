@@ -18,6 +18,14 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) {
+      sessionStorage.setItem('referral_code', ref);
+    }
+  }, []);
+
   const handleInitialSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password || !legalAccepted) return;

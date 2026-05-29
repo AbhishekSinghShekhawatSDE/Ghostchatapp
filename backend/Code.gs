@@ -174,7 +174,7 @@ function searchUser(data) {
   const values = sheet.getDataRange().getValues();
   
   for (let i = 1; i < values.length; i++) {
-    if (values[i][4] === searchCode) {
+    if (String(values[i][4]) === String(searchCode)) {
       return sendResponse({ success: true, code: searchCode, username: values[i][1] });
     }
   }
@@ -205,8 +205,8 @@ function getMessages(data) {
     const row = values[i];
     const msgTime = new Date(row[0]).getTime();
     
-    const isRelevant = (row[1] === senderCode && row[2] === receiverCode) || 
-                       (row[1] === receiverCode && row[2] === senderCode);
+    const isRelevant = (String(row[1]) === String(senderCode) && String(row[2]) === String(receiverCode)) || 
+                       (String(row[1]) === String(receiverCode) && String(row[2]) === String(senderCode));
     
     if (isRelevant && (!lastSyncTime || msgTime > lastSyncTime)) {
       newMessages.push({

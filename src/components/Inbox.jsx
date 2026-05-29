@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Trash2 } from 'lucide-react';
 import '../styles/designTokens.css';
 
-const Inbox = ({ conversations, activeChat, onSelectChat, session }) => {
+const Inbox = ({ conversations, activeChat, onSelectChat, onDeleteChat, session }) => {
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>Messages</h2>
@@ -32,28 +33,48 @@ const Inbox = ({ conversations, activeChat, onSelectChat, session }) => {
         </div>
       ) : (
         <div style={styles.list}>
-          {conversations.map((chat, i) => (
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.05 }}
-              key={chat.code} 
-              onClick={() => onSelectChat(chat)}
-              style={{
-                ...styles.chatItem,
-                backgroundColor: activeChat?.code === chat.code ? 'rgba(10, 132, 255, 0.15)' : 'transparent',
-                borderLeft: activeChat?.code === chat.code ? '3px solid var(--brand-primary)' : '3px solid transparent'
-              }}
-            >
-              <div style={styles.avatar}>
-                {chat.code.substring(0,2)}
-              </div>
-              <div style={styles.chatInfo}>
-                <div style={styles.chatName}>User #{chat.code}</div>
-                <div style={styles.lastMessage}>{chat.lastMessage || 'New conversation'}</div>
-              </div>
-            </motion.div>
-          ))}
+          {conversations.map((chat, i) => {
+            const isExpired = chat.lastActivity && (Date.now() - chat.lastActivity > 24 * 60 * 60 * 1000);
+            
+            return (
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+                key={chat.code} 
+                onClick={() => onSelectChat(chat)}
+                style={{
+                  ...styles.chatItem,
+                  backgroundColor: activeChat?.code === chat.code ? 'rgba(10, 132, 255, 0.15)' : 'transparent',
+                  borderLeft: activeChat?.code === chat.code ? '3px solid var(--brand-primary)' : '3px solid transparent'
+                }}
+              >
+                <div style={styles.avatar}>
+                  {chat.code.substring(0,2)}
+                </div>
+                <div style={styles.chatInfo}>
+                  <div style={styles.chatName}>User #{chat.code}</div>
+                  <div style={styles.lastMessage}>
+                    {isExpired ? (
+                      <span style={{color: 'var(--brand-warning)'}}>Chat ended. Start new conversation?</span>
+                    ) : (
+                      chat.lastMessage || 'New conversation'
+                    )}
+                  </div>
+                </div>
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteChat(chat.code);
+                  }}
+                  style={styles.deleteBtn}
+                  title="Delete Chat"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </motion.div>
+            );
+          })}
         </div>
       )}
     </div>
@@ -168,7 +189,29 @@ const styles = {
     borderRadius: '4px',
     fontSize: '14px',
     transition: 'background 0.2s'
+  },
+  deleteBtn: {
+    background: 'none',
+    border: 'none',
+    color: 'var(--text-secondary)',
+    cursor: 'pointer',
+    padding: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    opacity: 0.6,
+    transition: 'opacity 0.2s, color 0.2s',
   }
 };
+
+// Add hover effect via pure CSS since inline styles don't support pseudo-classes easily
+const styleTag = document.createElement('style');
+styleTag.innerHTML = `
+  button[title="Delete Chat"]:hover {
+    opacity: 1 !important;
+    color: var(--brand-error) !important;
+  }
+`;
+document.head.appendChild(styleTag);
 
 export default Inbox;

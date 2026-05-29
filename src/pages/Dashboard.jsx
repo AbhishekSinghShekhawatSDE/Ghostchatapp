@@ -8,6 +8,7 @@ import Inbox from '../components/Inbox';
 import Chat from '../components/Chat';
 import Settings from '../components/Settings';
 import OnboardingModal from '../components/OnboardingModal';
+import SuggestionBox from '../components/SuggestionBox';
 import '../styles/designTokens.css';
 
 const Dashboard = () => {
@@ -21,21 +22,48 @@ const Dashboard = () => {
     messages, 
     selectChat: setActiveChat, 
     sendMessage, 
+    sendDirectMessage,
     searchUser: handleSearch, 
-    loading: searchLoading 
+    loading: searchLoading,
+    addConversation,
+    deleteConversation
   } = useChat(session);
 
   useEffect(() => {
     if (!session) {
       navigate('/login');
+      return;
+    }
+
+    const refCode = sessionStorage.getItem('referral_code');
+    if (refCode) {
+      sessionStorage.removeItem('referral_code');
+      // Adding a small delay to ensure chat initializes
+      setTimeout(() => {
+        handleSearch(refCode).then((chat) => {
+          if (chat) {
+            setTimeout(() => {
+              sendDirectMessage(chat.code, "Hi, just joined!");
+            }, 500);
+          }
+        });
+      }, 500);
     }
   }, [session, navigate]);
+
+  const handleSelectBot = (bot) => {
+    addConversation(bot.code, bot.username);
+  };
 
   if (!session) return null;
 
   return (
     <div className="dashboard-layout">
       <OnboardingModal />
+      <SuggestionBox 
+        visible={conversations.length === 0} 
+        onSelectBot={handleSelectBot} 
+      />
       {/* Top Navigation Bar */}
       <motion.header 
         initial={{ y: -50, opacity: 0 }}
@@ -67,6 +95,7 @@ const Dashboard = () => {
             conversations={conversations} 
             activeChat={activeChat} 
             onSelectChat={setActiveChat} 
+            onDeleteChat={deleteConversation}
             session={session}
           />
         </div>

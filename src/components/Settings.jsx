@@ -92,6 +92,14 @@ const Settings = ({ session }) => {
                   </div>
 
                   <div style={styles.actions}>
+                    <button 
+                      onClick={() => copyToClipboard(`${window.location.origin}/signup?ref=${session?.searchCode}`)} 
+                      className="glass-button" 
+                      style={styles.shareButton}
+                    >
+                      <Copy size={16} style={{marginRight: '8px'}} />
+                      Copy Share Link
+                    </button>
                     <button onClick={handleLogout} className="glass-button" style={styles.logoutButton}>
                       <LogOut size={16} style={{marginRight: '8px'}} />
                       Sign Out Completely
@@ -236,7 +244,19 @@ const styles = {
     paddingTop: '20px',
     borderTop: '1px solid var(--glass-border)',
     display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
     justifyContent: 'center',
+  },
+  shareButton: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'rgba(10, 132, 255, 0.1)',
+    color: 'var(--brand-primary)',
+    border: '1px solid rgba(10, 132, 255, 0.3)',
+    boxShadow: 'none',
   },
   logoutButton: {
     width: '100%',

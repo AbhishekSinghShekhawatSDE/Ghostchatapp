@@ -15,6 +15,14 @@ const Login = () => {
   const { login, loading, error } = useAuth();
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) {
+      sessionStorage.setItem('referral_code', ref);
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!username || !password || !passphrase) return;
